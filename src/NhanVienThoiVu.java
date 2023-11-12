@@ -2,15 +2,15 @@
 public class NhanVienThoiVu extends NhanVien {
 	//Các thuộc tính mới
 	private int soGio;
-	private int mucLuongTheoGio;
+	private int luongCanBanTheoGio;
 	
 	//Các hàm get và set mới
 		//*** Các hàm get ***
 	public int getSoGio() {
 		return soGio;
 	}
-	public long getMucLuongTheoGio() {
-		return mucLuongTheoGio;
+	public long getluongCanBanTheoGio() {
+		return luongCanBanTheoGio;
 	}
 	
 		//*** Các hàm set ***
@@ -18,8 +18,8 @@ public class NhanVienThoiVu extends NhanVien {
 		soGio = newSoGio;
 		tinhLuong();
 	}
-	public void setMucLuongTheoGio(int newMucLuongTheoGio) {
-		mucLuongTheoGio = newMucLuongTheoGio;
+	public void setluongCanBanTheoGio(int newluongCanBanTheoGio) {
+		luongCanBanTheoGio = newluongCanBanTheoGio;
 		tinhLuong();
 	}
 	
@@ -28,8 +28,8 @@ public class NhanVienThoiVu extends NhanVien {
 		if(newSoGio < 0) return true;
 		return false;
 	}
-	private boolean mucLuongTheoGioKhongHopLe(int newMucLuongTheoGio) {
-		if(newMucLuongTheoGio < 0) return true;
+	private boolean luongCanBanTheoGioKhongHopLe(int newluongCanBanTheoGio) {
+		if(newluongCanBanTheoGio < 0) return true;
 		return false;
 	}
 	
@@ -38,21 +38,21 @@ public class NhanVienThoiVu extends NhanVien {
 	public NhanVienThoiVu() {
 		super();
 		soGio = 0;
-		mucLuongTheoGio = 0;
+		luongCanBanTheoGio = 0;
 	}
 	
 		//*** Constructor có tham số ***
 	public NhanVienThoiVu(String newHo, String newTen, String newNgaySinh, String newGioiTinh, 
-			String newMaSo, String newMaPhongBan, int newSoGio, int newMucLuongTheoGio) {
-		super(newHo, newTen, newNgaySinh, newGioiTinh, newMaSo, newMaPhongBan);
+			String newId, String newMaPhongBan, int newSoGio, int newluongCanBanTheoGio) {
+		super(newHo, newTen, newNgaySinh, newGioiTinh, newId, newMaPhongBan);
 		soGio = newSoGio;
 		if(soGioKhongHopLe(soGio)) soGio = 0;
-		mucLuongTheoGio = newMucLuongTheoGio;
-		if(mucLuongTheoGioKhongHopLe(mucLuongTheoGio)) mucLuongTheoGio = 0;
+		luongCanBanTheoGio = newluongCanBanTheoGio;
+		if(luongCanBanTheoGioKhongHopLe(luongCanBanTheoGio)) luongCanBanTheoGio = 0;
 	}
 	//Hàm tính lương
 	@Override public void tinhLuong() {
-		setMucLuong(soGio * mucLuongTheoGio);
+		setluongCanBanTheoGio(soGio * luongCanBanTheoGio);
 	}
 	//Các hàm nhập và xuất
 		//*** Hàm nhập ***
@@ -66,20 +66,20 @@ public class NhanVienThoiVu extends NhanVien {
 		} while(soGioKhongHopLe(newSoGio));
 		soGio = newSoGio;
 	}
-	public void nhapMucLuongTheoGio() {
-		int newMucLuongTheoGio;
+	public void nhapluongCanBanTheoGio() {
+		int newluongCanBanTheoGio;
 		do {
 			System.out.print("Nhap muc luong theo gio: ");
-			newMucLuongTheoGio = Integer.parseInt(scan.nextLine());
-		} while(mucLuongTheoGioKhongHopLe(newMucLuongTheoGio));
-		mucLuongTheoGio = newMucLuongTheoGio;
+			newluongCanBanTheoGio = Integer.parseInt(scan.nextLine());
+		} while(luongCanBanTheoGioKhongHopLe(newluongCanBanTheoGio));
+		luongCanBanTheoGio = newluongCanBanTheoGio;
 	}
 	
 			//***** Hàm nhập tổng hợp *****
 	@Override public void nhap() {
 		super.nhap();
 		nhapSoGio();
-		nhapMucLuongTheoGio();
+		nhapluongCanBanTheoGio();
 		tinhLuong();
 	}
 	
@@ -89,14 +89,14 @@ public class NhanVienThoiVu extends NhanVien {
 	private void xuatSoGio() {
 		System.out.println("So gio lam: "+soGio);
 	}
-	private void xuatMucLuongTheoGio() {
-		System.out.println("Muc luong theo gio: "+mucLuongTheoGio);
+	private void xuatluongCanBanTheoGio() {
+		System.out.println("Muc luong theo gio: "+luongCanBanTheoGio);
 	}
 	
 			//*** Hàm xuất tổng hợp ***
 	@Override public void xuat() {
 		super.xuat();
 		xuatSoGio();
-		xuatMucLuongTheoGio();
+		xuatluongCanBanTheoGio();
 	}
 }

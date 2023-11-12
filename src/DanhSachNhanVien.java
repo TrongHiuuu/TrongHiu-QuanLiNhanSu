@@ -49,67 +49,36 @@ public class DanhSachNhanVien extends DanhSach{
 		int luaChon = -1;
 		System.out.println("===========================================");
 		System.out.println("|1. Tim theo ma so nhan vien.");
-		System.out.println("|2. Tim theo gioi tinh nhan vien.");
-		System.out.println("|3. Tim theo ten nhan vien.");
-		System.out.println("|4. Tim theo ma phong ban nhan vien.");
-		System.out.println("|5. Tim theo loai nhan vien.");
-		System.out.println("|6. Tim theo muc luong nhan vien.");
+		System.out.println("|2. Tim theo ten nhan vien.");
+		System.out.println("|3. Tim theo ma phong ban nhan vien.");
+		System.out.println("|4. Tim theo loai nhan vien.");
+		System.out.println("|5. Tim theo muc luong nhan vien.");
 		System.out.println("|0. Huy tim kiem.");
 		System.out.println("===========================================");
 		do {
 			System.out.println("Nhap lua chon: ");
 			luaChon = Integer.parseInt(scan.nextLine());
-		} while (luaChon < 0 || luaChon > 6);
+		} while (luaChon < 0 || luaChon > 5);
 		return luaChon;
 	}
 	//Phương thức tìm kiếm
 		//*** Các phương thức tìm thành phần ***
 	
 			//***** Tìm theo mã số *****
-	private ArrayList<NhanVien> timMaSo() {
-		String maSoCanTim;
+	private ArrayList<NhanVien> timid() {
+		String idCanTim;
 		ArrayList<NhanVien> nhanVienCanTim = new ArrayList<NhanVien>();
 		do {
 			System.out.print("Nhap ma so nhan vien can tim: ");
-			maSoCanTim = scan.nextLine();
-		} while(maSoCanTim.length() != NhanVien_CONST.NUMBEROFCHAR_MASO);
+			idCanTim = scan.nextLine();
+		} while(idCanTim.length() != NhanVien_CONST.NUMBEROFCHAR_id);
 		for(NhanVien i: danhSachNhanVien) {
-			String maSo = i.getMaSo();
-			if(maSo == maSoCanTim.intern()) {
+			String id = i.getid();
+			if(id == idCanTim.intern()) {
 				nhanVienCanTim.add(i);
 			}
 		}
 		return nhanVienCanTim;
-	}
-	
-			//***** Tìm theo giới tính *****
-	private ArrayList<NhanVien> timGioiTinh() {
-		int gioiTinhDuocLuaChon;
-		do {
-			System.out.print("Gioi tinh (1.Nam 2.nu): ");
-			gioiTinhDuocLuaChon = Integer.parseInt(scan.nextLine());
-		} while(gioiTinhDuocLuaChon < 1 || gioiTinhDuocLuaChon > 2);
-		switch(gioiTinhDuocLuaChon) {
-			case 1:
-				ArrayList<NhanVien> danhSachNhanVienNam = new ArrayList<NhanVien>();
-				for(NhanVien i: danhSachNhanVien) {
-					String gioiTinh = i.getGioiTinh();
-					if(gioiTinh == NhanVien_CONST.GIOITINH_NAM) {
-						danhSachNhanVienNam.add(i);
-					}
-				}
-				return danhSachNhanVienNam;
-			case 2:
-				ArrayList<NhanVien> danhSachNhanVienNu = new ArrayList<NhanVien>();
-				for(NhanVien i: danhSachNhanVien) {
-					String gioiTinh = i.getGioiTinh();
-					if(gioiTinh == NhanVien_CONST.GIOITINH_NU) {
-						danhSachNhanVienNu.add(i);
-					}
-				}
-				return danhSachNhanVienNu;
-		}
-		return null;
 	}
 	
 			//***** Tìm theo tên *****
@@ -173,43 +142,43 @@ public class DanhSachNhanVien extends DanhSach{
 	}
 	
 			//***** Tìm theo mức lương *****
-	private ArrayList<NhanVien> timMucLuong() {
+	private ArrayList<NhanVien> timluongCanBan() {
 		int luaChon;
-		long mucLuongCanTim;
-		ArrayList<NhanVien> danhSachNhanVienTheoMucLuong = new ArrayList<NhanVien>();
+		long luongCanBanCanTim;
+		ArrayList<NhanVien> danhSachNhanVienTheoluongCanBan = new ArrayList<NhanVien>();
 		do {
 			System.out.println("Chon phan loai muc luong(1. >; 2. <; 3. =): ");
 			luaChon = Integer.parseInt(scan.nextLine());
 		} while(luaChon < 1 || luaChon > 3);
 		do {
 			System.out.println("Nhap muc luong can tim: ");
-			mucLuongCanTim = Long.parseLong(scan.nextLine());
-		} while(mucLuongCanTim < 0);
+			luongCanBanCanTim = Long.parseLong(scan.nextLine());
+		} while(luongCanBanCanTim < 0);
 		switch(luaChon) {
 			case 1:
 				for(NhanVien i: danhSachNhanVien) {
-					long luong = i.getMucLuong();
-					if (luong > mucLuongCanTim) {
-						danhSachNhanVienTheoMucLuong.add(i);
+					long luong = i.getluongCanBan();
+					if (luong > luongCanBanCanTim) {
+						danhSachNhanVienTheoluongCanBan.add(i);
 					}
 				}
-				return danhSachNhanVienTheoMucLuong;
+				return danhSachNhanVienTheoluongCanBan;
 			case 2:
 				for(NhanVien i: danhSachNhanVien) {
-					long luong = i.getMucLuong();
-					if (luong < mucLuongCanTim) {
-						danhSachNhanVienTheoMucLuong.add(i);
+					long luong = i.getluongCanBan();
+					if (luong < luongCanBanCanTim) {
+						danhSachNhanVienTheoluongCanBan.add(i);
 					}
 				}
-				return danhSachNhanVienTheoMucLuong;
+				return danhSachNhanVienTheoluongCanBan;
 			case 3:
 				for(NhanVien i: danhSachNhanVien) {
-					long luong = i.getMucLuong();
-					if (luong == mucLuongCanTim) {
-						danhSachNhanVienTheoMucLuong.add(i);
+					long luong = i.getluongCanBan();
+					if (luong == luongCanBanCanTim) {
+						danhSachNhanVienTheoluongCanBan.add(i);
 					}
 				}
-				return danhSachNhanVienTheoMucLuong;
+				return danhSachNhanVienTheoluongCanBan;
 		}
 		return null;
 	}
@@ -222,22 +191,19 @@ public class DanhSachNhanVien extends DanhSach{
 			case 0:
 				return null;
 			case 1:
-				danhSachNhanVienCanTim = timMaSo();
+				danhSachNhanVienCanTim = timid();
 				break;
 			case 2:
-				danhSachNhanVienCanTim = timGioiTinh();
-				break;
-			case 3:
 				danhSachNhanVienCanTim = timTen();
 				break;
-			case 4:
+			case 3:
 				danhSachNhanVienCanTim = timMaPhongBan();
 				break;
-			case 5:
+			case 4:
 				danhSachNhanVienCanTim = timLoaiNhanVien();
 				break;
-			case 6:
-				danhSachNhanVienCanTim = timMucLuong();
+			case 5:
+				danhSachNhanVienCanTim = timluongCanBan();
 				break;
 		}
 		return danhSachNhanVienCanTim;
@@ -282,9 +248,9 @@ public class DanhSachNhanVien extends DanhSach{
 				System.out.println("Da xoa nhan vien!!");
 			} 
 			if (luaChon == 2) {			
-					danhSachNhanVien.removeAll(danhSachNhanVienCanXoa);
-					danhSachNhanVien.clear();
-					System.out.println("Da xoa cac nhan vien trong danh sach tren!!");
+				danhSachNhanVien.removeAll(danhSachNhanVienCanXoa);
+				danhSachNhanVien.clear();
+				System.out.println("Da xoa cac nhan vien trong danh sach tren!!");
 			}
 			if (luaChon == 0) return;
 		}
@@ -318,16 +284,15 @@ public class DanhSachNhanVien extends DanhSach{
 				System.out.println("Chon thong tin can sua:");
 				System.out.println("1. Ho Ten");
 				System.out.println("2. Ngay thang nam sinh");
-				System.out.println("3. Gioi tinh");
-				System.out.println("4. Ma so");
-				System.out.println("5. Ma phong Ban");
+				System.out.println("3. Ma so");
+				System.out.println("4. Ma phong Ban");
 				if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienThoiVu) {
-					System.out.println("6. So gio lam ");
-					System.out.println("7. Muc luong theo gio ");
+					System.out.println("5. So gio lam ");
+					System.out.println("6. Muc luong theo gio ");
 				}
 				if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
-					System.out.println("6. So ngay lam ");
-					System.out.println("7. Muc luong theo ngay ");
+					System.out.println("5. So ngay lam ");
+					System.out.println("6. Muc luong theo ngay ");
 				}
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 1 || luaChon > 7);
@@ -339,15 +304,12 @@ public class DanhSachNhanVien extends DanhSach{
 					(danhSachNhanVien.get(index)).nhapNgaySinh();
 					break;
 				case 3:
-					(danhSachNhanVien.get(index)).nhapGioiTinh();
+					(danhSachNhanVien.get(index)).nhapid();
 					break;
 				case 4:
-					(danhSachNhanVien.get(index)).nhapMaSo();
-					break;
-				case 5:
 					(danhSachNhanVien.get(index)).nhapMaPhongBan();
 					break;
-				case 6:
+				case 5:
 					if (danhSachNhanVien.get(index) instanceof NhanVienThoiVu) {
 						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapSoGio();
 					}
@@ -355,12 +317,12 @@ public class DanhSachNhanVien extends DanhSach{
 						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).nhapSoNgay();
 					}
 					break;
-				case 7:
+				case 6:
 					if (danhSachNhanVien.get(index) instanceof NhanVienThoiVu) {
-						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapMucLuongTheoGio();;
+						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapluongCanBanTheoGio();;
 					}
 					if (danhSachNhanVien.get(index) instanceof NhanVienChinhThuc) {
-						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).nhapMucLuongTheoNgay();;
+						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).nhapluongCanBanTheoNgay();;
 					}
 					break;
 			}
