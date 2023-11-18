@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
 
 public class DanhSachNhanVien extends DanhSach{
 	//Khai báo mảng các nhân viên
@@ -52,28 +54,28 @@ public class DanhSachNhanVien extends DanhSach{
 		System.out.println("|2. Tim theo ten nhan vien.");
 		System.out.println("|3. Tim theo ma phong ban nhan vien.");
 		System.out.println("|4. Tim theo loai nhan vien.");
-		System.out.println("|5. Tim theo muc luong nhan vien.");
+		//System.out.println("|5. Tim theo muc luong nhan vien.");
 		System.out.println("|0. Huy tim kiem.");
 		System.out.println("===========================================");
 		do {
 			System.out.println("Nhap lua chon: ");
 			luaChon = Integer.parseInt(scan.nextLine());
-		} while (luaChon < 0 || luaChon > 5);
+		} while (luaChon < 0 || luaChon > 4);
 		return luaChon;
 	}
 	//Phương thức tìm kiếm
 		//*** Các phương thức tìm thành phần ***
 	
 			//***** Tìm theo mã số *****
-	private ArrayList<NhanVien> timid() {
+	private ArrayList<NhanVien> timID() {
 		String idCanTim;
 		ArrayList<NhanVien> nhanVienCanTim = new ArrayList<NhanVien>();
 		do {
 			System.out.print("Nhap ma so nhan vien can tim: ");
 			idCanTim = scan.nextLine();
-		} while(idCanTim.length() != NhanVien_CONST.NUMBEROFCHAR_id);
+		} while(idCanTim.length() != NhanVien_CONST.NUMBEROFCHAR_ID);
 		for(NhanVien i: danhSachNhanVien) {
-			String id = i.getid();
+			String id = i.getID();
 			if(id == idCanTim.intern()) {
 				nhanVienCanTim.add(i);
 			}
@@ -142,7 +144,7 @@ public class DanhSachNhanVien extends DanhSach{
 	}
 	
 			//***** Tìm theo mức lương *****
-	private ArrayList<NhanVien> timluongCanBan() {
+	/*private ArrayList<NhanVien> timluongCanBan() {
 		int luaChon;
 		long luongCanBanCanTim;
 		ArrayList<NhanVien> danhSachNhanVienTheoluongCanBan = new ArrayList<NhanVien>();
@@ -181,7 +183,7 @@ public class DanhSachNhanVien extends DanhSach{
 				return danhSachNhanVienTheoluongCanBan;
 		}
 		return null;
-	}
+	}*/
 		//*** Phương thức tìm ***
 			//***** Tổng hợp các phương thức tìm thành phần *****
 	public ArrayList<NhanVien> danhSachCanTim() {
@@ -191,7 +193,7 @@ public class DanhSachNhanVien extends DanhSach{
 			case 0:
 				return null;
 			case 1:
-				danhSachNhanVienCanTim = timid();
+				danhSachNhanVienCanTim = timID();
 				break;
 			case 2:
 				danhSachNhanVienCanTim = timTen();
@@ -202,9 +204,9 @@ public class DanhSachNhanVien extends DanhSach{
 			case 4:
 				danhSachNhanVienCanTim = timLoaiNhanVien();
 				break;
-			case 5:
+			/*case 5:
 				danhSachNhanVienCanTim = timluongCanBan();
-				break;
+				break;*/
 		}
 		return danhSachNhanVienCanTim;
 	}
@@ -283,19 +285,16 @@ public class DanhSachNhanVien extends DanhSach{
 			do {
 				System.out.println("Chon thong tin can sua:");
 				System.out.println("1. Ho Ten");
-				System.out.println("2. Ngay thang nam sinh");
-				System.out.println("3. Ma so");
-				System.out.println("4. Ma phong Ban");
+				System.out.println("2. Ngay sinh");
+				System.out.println("3. Ma phong Ban");
 				if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienThoiVu) {
-					System.out.println("5. So gio lam ");
-					System.out.println("6. Muc luong theo gio ");
+					System.out.println("4. Tien bao hiem");
 				}
 				if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
-					System.out.println("5. So ngay lam ");
-					System.out.println("6. Muc luong theo ngay ");
+					System.out.println("4. Thoi han lam viec");
 				}
 				luaChon = Integer.parseInt(scan.nextLine());
-			} while(luaChon < 1 || luaChon > 7);
+			} while(luaChon < 1 || luaChon > 4);
 			switch(luaChon) {
 				case 1:
 					(danhSachNhanVien.get(index)).nhapHoTen();;
@@ -304,28 +303,82 @@ public class DanhSachNhanVien extends DanhSach{
 					(danhSachNhanVien.get(index)).nhapNgaySinh();
 					break;
 				case 3:
-					(danhSachNhanVien.get(index)).nhapid();
-					break;
-				case 4:
 					(danhSachNhanVien.get(index)).nhapMaPhongBan();
 					break;
-				case 5:
+				case 4:
 					if (danhSachNhanVien.get(index) instanceof NhanVienThoiVu) {
-						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapSoGio();
+						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapThoiHanLamViec();
 					}
 					if (danhSachNhanVien.get(index) instanceof NhanVienChinhThuc) {
-						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).nhapSoNgay();
-					}
-					break;
-				case 6:
-					if (danhSachNhanVien.get(index) instanceof NhanVienThoiVu) {
-						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapluongCanBanTheoGio();;
-					}
-					if (danhSachNhanVien.get(index) instanceof NhanVienChinhThuc) {
-						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).nhapluongCanBanTheoNgay();;
+						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).nhapTienBaoHiem();
 					}
 					break;
 			}
 		}
 	} 
+	
+	//Đọc, ghi file
+	
+		//*** Đọc file ***
+	public void DocFile(File inputFile) {
+		try {
+			Scanner scan = new Scanner(inputFile);
+			while(scan.hasNextLine()) {
+				NhanVien newNV = new NhanVien();
+				String temp = scan.nextLine();
+				String arr[] = temp.split("|");
+				if(arr[0].intern() == "1") {
+					newNV = (NhanVienThoiVu)newNV;
+				} else {
+					newNV = (NhanVienChinhThuc)newNV;
+				};
+				newNV.setHoTen(arr[1]);
+				newNV.setNgaySinh(arr[2]);
+				newNV.setMaPhongBan(arr[3]);
+				if(newNV instanceof NhanVienThoiVu) {
+					((NhanVienThoiVu)newNV).setThoiHanLamViec(Integer.parseInt(arr[4]));
+				}
+				if(newNV instanceof NhanVienChinhThuc) {
+					((NhanVienChinhThuc)newNV).setTienBaoHiem(Double.parseDouble(arr[4]));
+				}
+			}
+			scan.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+		//*** Ghi file ***
+	public void GhiFile(File outputFile) {
+		try {
+			FileWriter fw = new FileWriter(outputFile,true);
+			for(NhanVien i: danhSachNhanVien) {
+				if (i instanceof NhanVienThoiVu) {
+					fw.write("1|");
+				}
+				if (i instanceof NhanVienChinhThuc) {
+					fw.write("2|");
+				}
+				String ho, ten, ngaySinh, maPhongBan;
+				ho = i.getHo();
+				ten = i.getTen();
+				ngaySinh = (i.getNgaySinh()).toString();
+				maPhongBan = i.getMaPhongBan();
+				fw.write(ho+" "+ten+"|"+ngaySinh+"|"+maPhongBan+"|");
+				if (i instanceof NhanVienThoiVu) {
+					int temp = ((NhanVienThoiVu)i).getThoiHanLamViec();
+					String thoiHanLamViec = String.valueOf(temp);
+					fw.write(thoiHanLamViec);
+				}
+				if (i instanceof NhanVienChinhThuc) {
+					double temp = ((NhanVienChinhThuc)i).getTienBaoHiem();
+					String tienBaoHiem = String.valueOf(temp);
+					fw.write(tienBaoHiem);
+				}
+			}
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

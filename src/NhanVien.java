@@ -3,14 +3,14 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public abstract class NhanVien {
+public class NhanVien {
 	public Scanner scan = new Scanner(System.in);
 	
 	//Các thuộc tính
 	private String ho, ten;
 	private LocalDate ngaySinh;
 	private static String id;
-	private String maPhongBan;//
+	private String maPhongBan;
 	private long luongCanBan;
 	
 	//Các hàm get và set của class
@@ -24,7 +24,7 @@ public abstract class NhanVien {
 	public LocalDate getNgaySinh() {
 		return ngaySinh;
 	}
-	public String getId() {
+	public String getID() {
 		return id;
 	}
 	public String getMaPhongBan() {
@@ -62,6 +62,7 @@ public abstract class NhanVien {
 		id = newId;
 	} */
 	public void setMaPhongBan(String newMaPhongBan) {
+		if(maPhongBanKhongHopLe(newMaPhongBan)) return;
 		maPhongBan = newMaPhongBan;
 	}
 	
@@ -82,7 +83,7 @@ public abstract class NhanVien {
 
 		//*** Kiểm tra điều kiện của id ***
 	private boolean idKhongHopLe(String newId) {
-		if(newId.length() != NhanVien_CONST.NUMBEROFCHAR_id) return true;
+		if(newId.length() != NhanVien_CONST.NUMBEROFCHAR_ID) return true;
 		return false;
 	}
 	
@@ -116,8 +117,6 @@ public abstract class NhanVien {
 		if(maPhongBanKhongHopLe(maPhongBan)) maPhongBan = "";
 	}
 	
-	//Các hàm trừu tượng
-	abstract public void tinhLuong();
 	
 	//Các hàm nhập xuất của class
 	
@@ -153,6 +152,18 @@ public abstract class NhanVien {
 		}
 		id = newId;
 	} */
+	public void nhapMaPhongBan() {
+		String newMaPhongBan;
+		System.out.print("Nhap ma phong ban: ");
+		newMaPhongBan = scan.nextLine();
+		while(maPhongBanKhongHopLe(newMaPhongBan)) {
+			System.out.println("Ma phong ban khong hop le!! (Phai co "+NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN
+					+" ki tu)");
+			System.out.print("Nhap ma phong ban: ");
+			newMaPhongBan = scan.nextLine();
+		}
+		maPhongBan = newMaPhongBan;
+	}
 	
 			//***** Hàm nhập tổng hợp *****
 	public void nhap() {
@@ -170,7 +181,7 @@ public abstract class NhanVien {
 	private void xuatNgaySinh() {
 		System.out.println("Ngay thang nam sinh: "+ngaySinh);
 	}
-	private void xuatid() {
+	private void xuatID() {
 		System.out.println("Ma so: "+id);
 	}
 	private void xuatLuongCanBan() {
@@ -181,7 +192,11 @@ public abstract class NhanVien {
 	public void xuat() {
 		xuatHoTen();
 		xuatNgaySinh();
-		xuatid();
+		xuatID();
 		xuatLuongCanBan();
 	}
+	//Hàm tính tổng số lượng nhân viên
+	/*public static int tongSoLuongNhanVien() {
+		return
+	}*/
 }

@@ -1,35 +1,23 @@
 
 public class NhanVienChinhThuc extends NhanVien{
 	//Các thuộc tính mới
-	private int soNgay;
-	private int luongCanBanTheoNgay;
+	private double tienBaoHiem;
 	
 	//Các hàm get và set mới
 		//*** Các hàm get ***
-	public int getSoNgay() {
-		return soNgay;
-	}
-	public int getluongCanBanTheoNgay() {
-		return luongCanBanTheoNgay;
+	public double getTienBaoHiem() {
+		return tienBaoHiem;
 	}
 	
 		//*** Các hàm set ***
-	public void setSoNgay(int newSoNgay) {
-		soNgay = newSoNgay;
-		tinhLuong();
-	}
-	public void setluongCanBanTheoNgay(int newluongCanBanTheoNgay) {
-		luongCanBanTheoNgay = newluongCanBanTheoNgay;
-		tinhLuong();
+	public void setTienBaoHiem(double newTienBaoHiem) {
+		if (tienBaoHiemKhongHopLe(newTienBaoHiem)) return;
+		tienBaoHiem = newTienBaoHiem;
 	}
 	
 	//Các hàm điều kiện
-	private boolean soNgayKhongHopLe(int newSoNgay) {
-		if(newSoNgay < 0) return true;
-		return false;
-	}
-	private boolean luongCanBanTheoNgayKhongHopLe(int newluongCanBanTheoNgay) {
-		if(newluongCanBanTheoNgay < 0) return true;
+	private boolean tienBaoHiemKhongHopLe(double newTienBaoHiem) {
+		if(newTienBaoHiem < 0) return true;
 		return false;
 	}
 	
@@ -37,66 +25,48 @@ public class NhanVienChinhThuc extends NhanVien{
 		//*** Constructor không tham số ***
 	public NhanVienChinhThuc() {
 		super();
-		soNgay = 0;
-		luongCanBanTheoNgay = 0;
+		tienBaoHiem = 0;
 	}
 	
 		//*** Constructor có tham số ***
-	public NhanVienChinhThuc(String newHo, String newTen, String newNgaySinh, String newGioiTinh, String newId, String newMaPhongBan, int newSoNgay, int newluongCanBanTheoNgay) {
+	public NhanVienChinhThuc(String newHo, String newTen, String newNgaySinh, String newGioiTinh, 
+			String newId, String newMaPhongBan, double newTienBaoHiem) {
 		super(newHo, newTen, newNgaySinh, newGioiTinh, newId, newMaPhongBan);
-		soNgay = newSoNgay;
-		if(soNgayKhongHopLe(soNgay)) soNgay = 0;
-		luongCanBanTheoNgay = newluongCanBanTheoNgay;
-		if(luongCanBanTheoNgayKhongHopLe(luongCanBanTheoNgay)) luongCanBanTheoNgay = 0;
-	}
-	
-	//Hàm tính lương
-	@Override public void tinhLuong() {
-		setluongCanBanTheoNgay(soNgay * luongCanBanTheoNgay);
+		tienBaoHiem = newTienBaoHiem;
+		if(tienBaoHiemKhongHopLe(tienBaoHiem)) tienBaoHiem = 0;
 	}
 	
 	//Các hàm nhập và xuất
 			//*** Hàm nhập ***
 		
 				//***** Các hàm nhập thành phần mới *****
-	public void nhapSoNgay() {
-		int newSoNgay;
-		do {
-			System.out.print("Nhap so ngay lam: ");
-			newSoNgay = Integer.parseInt(scan.nextLine());
-		} while(soNgayKhongHopLe(newSoNgay));
-		soNgay = newSoNgay;
-	}
-	public void nhapluongCanBanTheoNgay() {
-		int newluongCanBanTheoNgay;
-		do {
-			System.out.print("Nhap muc luong theo ngay: ");
-			newluongCanBanTheoNgay = Integer.parseInt(scan.nextLine());
-		} while(luongCanBanTheoNgayKhongHopLe(luongCanBanTheoNgay));
-		luongCanBanTheoNgay = newluongCanBanTheoNgay;
+	public void nhapTienBaoHiem() {
+		double newTienBaoHiem;
+		System.out.print("Nhap tien bao hiem: ");
+		newTienBaoHiem = Double.parseDouble(scan.nextLine());
+		while(tienBaoHiemKhongHopLe(newTienBaoHiem)) {
+			System.out.println("Tien bao hiem khong hop le!! (Phai lon hon 0)");
+			System.out.print("Nhap tien bao hiem: ");
+			newTienBaoHiem = Double.parseDouble(scan.nextLine());
+		}
+		tienBaoHiem = newTienBaoHiem;
 	}
 	
 				//***** Hàm nhập tổng hợp *****
 	@Override public void nhap() {
 		super.nhap();
-		nhapSoNgay();
-		nhapluongCanBanTheoNgay();
-		tinhLuong();
+		nhapTienBaoHiem();
 	}
 			//*** Hàm xuất ***
 	
 				//***** Các hàm xuất thành phần mới *****
-	public void xuatSoNgay() {
-		System.out.println("So ngay lam: "+soNgay);
-	}
-	public void xuatluongCanBanTheoNgay() {
-		System.out.println("Muc luong theo ngay: "+luongCanBanTheoNgay);
+	public void xuatTienBaoHiem() {
+		System.out.println("Tien bao hiem: "+tienBaoHiem);
 	}
 	
 				//*** Hàm xuất tổng hợp ***
 	@Override public void xuat() {
 		super.xuat();
-		xuatSoNgay();
-		xuatluongCanBanTheoNgay();
+		xuatTienBaoHiem();
 	}
 }
