@@ -68,15 +68,19 @@ public class DanhSachNhanVien extends DanhSach{
 	
 			//***** Tìm theo mã số *****
 	private ArrayList<NhanVien> timID() {
-		String idCanTim;
+		int idCanTim;
 		ArrayList<NhanVien> nhanVienCanTim = new ArrayList<NhanVien>();
-		do {
+		System.out.print("Nhap ma so nhan vien can tim: ");
+		idCanTim = Integer.parseInt(scan.nextLine());
+		while((String.valueOf(idCanTim)).length() != NhanVien_CONST.NUMBEROFCHAR_ID) {
+			System.out.println("Ma so khong hop le!! (Ma so nhan vien phai co "+
+					NhanVien_CONST.NUMBEROFCHAR_ID+" ki tu)");
 			System.out.print("Nhap ma so nhan vien can tim: ");
-			idCanTim = scan.nextLine();
-		} while(idCanTim.length() != NhanVien_CONST.NUMBEROFCHAR_ID);
+			idCanTim = Integer.parseInt(scan.nextLine());
+		}
 		for(NhanVien i: danhSachNhanVien) {
-			String id = i.getID();
-			if(id == idCanTim.intern()) {
+			int id = i.getID();
+			if(id == idCanTim) {
 				nhanVienCanTim.add(i);
 			}
 		}
@@ -100,15 +104,19 @@ public class DanhSachNhanVien extends DanhSach{
 	
 			//***** Tìm theo mã phòng ban *****
 	private ArrayList<NhanVien> timMaPhongBan() {
-		String maPhongBanCanTim;
+		int maPhongBanCanTim;
 		ArrayList<NhanVien> danhSachNhanVienPhongBan = new ArrayList<NhanVien>();
-		do {
+		System.out.print("Nhap ma phong ban can tim: ");
+		maPhongBanCanTim = Integer.parseInt(scan.nextLine());
+		while((String.valueOf(maPhongBanCanTim)).length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN) {
+			System.out.println("Ma phong ban khong hop le (Ma phong ban phai co "+
+					NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN+" ki tu");
 			System.out.print("Nhap ma phong ban can tim: ");
-			maPhongBanCanTim = scan.nextLine();
-		} while(maPhongBanCanTim.length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN);
+			maPhongBanCanTim = Integer.parseInt(scan.nextLine());
+		}
 		for(NhanVien i: danhSachNhanVien) {
-			String maPhongBan = i.getMaPhongBan();
-			if(maPhongBan == maPhongBanCanTim.intern()) {
+			int maPhongBan = i.getMaPhongBan();
+			if(maPhongBan == maPhongBanCanTim) {
 				danhSachNhanVienPhongBan.add(i);
 			}
 		}
@@ -232,12 +240,15 @@ public class DanhSachNhanVien extends DanhSach{
 		while (danhSachNhanVienCanXoa.size() > 0) {
 			System.out.println("Danh sach cac nhan vien can xoa: ");
 			for(NhanVien i: danhSachNhanVienCanXoa) {
-				System.out.println("1. ");i.xuat();
+				int count = 1;
+				System.out.println(count+". ");i.xuat();
+				count++;
 			}
-			do{
-				System.out.println("1. Xoa 1 nhan vien trong danh sach");
-				System.out.println("2. xoa tat ca nhan vien trong danh sach");
-				System.out.println("0. Thoat");
+			System.out.println("1. Xoa 1 nhan vien trong danh sach");
+			System.out.println("2. xoa tat ca nhan vien trong danh sach");
+			System.out.println("0. Thoat");
+			do {
+				System.out.print("Nhap lua chon: ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 0 || luaChon > 2);
 			if (luaChon == 1) {
@@ -269,11 +280,14 @@ public class DanhSachNhanVien extends DanhSach{
 			int stt, luaChon ;
 			System.out.println("Danh sach nhan vien can sua: ");
 			for(NhanVien i: danhSachNhanVienCanSua) {
-				System.out.println("1. ");i.xuat();
+				int count = 1;
+				System.out.println(count+". ");i.xuat();
+				count++;
 			}
+			System.out.println("1. Chon 1 nhan vien can sua");
+			System.out.println("0. Thoat");
 			do {
-				System.out.println("1. Chon 1 nhan vien can sua");
-				System.out.println("0. Thoat");
+				System.out.print("Nhap lua chon: ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 0 || luaChon > 1);
 			if(luaChon == 0) return;
@@ -282,17 +296,18 @@ public class DanhSachNhanVien extends DanhSach{
 				stt = Integer.parseInt(scan.nextLine());
 			} while(stt < 0 || stt > danhSachNhanVienCanSua.size());
 			int index = danhSachNhanVien.indexOf(danhSachNhanVienCanSua.get(stt-1));
+			System.out.println("Chon thong tin can sua:");
+			System.out.println("1. Ho Ten");
+			System.out.println("2. Ngay sinh");
+			System.out.println("3. Ma phong Ban");
+			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienThoiVu) {
+				System.out.println("4. Tien bao hiem");
+			}
+			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
+				System.out.println("4. Thoi han lam viec");
+			}
 			do {
-				System.out.println("Chon thong tin can sua:");
-				System.out.println("1. Ho Ten");
-				System.out.println("2. Ngay sinh");
-				System.out.println("3. Ma phong Ban");
-				if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienThoiVu) {
-					System.out.println("4. Tien bao hiem");
-				}
-				if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
-					System.out.println("4. Thoi han lam viec");
-				}
+				System.out.print("Nhap lua chon: ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 1 || luaChon > 4);
 			switch(luaChon) {
@@ -334,7 +349,7 @@ public class DanhSachNhanVien extends DanhSach{
 				};
 				newNV.setHoTen(arr[1]);
 				newNV.setNgaySinh(arr[2]);
-				newNV.setMaPhongBan(arr[3]);
+				newNV.setMaPhongBan(Integer.parseInt(arr[3]));
 				if(newNV instanceof NhanVienThoiVu) {
 					((NhanVienThoiVu)newNV).setThoiHanLamViec(Integer.parseInt(arr[4]));
 				}
@@ -359,7 +374,8 @@ public class DanhSachNhanVien extends DanhSach{
 				if (i instanceof NhanVienChinhThuc) {
 					fw.write("2|");
 				}
-				String ho, ten, ngaySinh, maPhongBan;
+				String ho, ten, ngaySinh;
+				int maPhongBan;
 				ho = i.getHo();
 				ten = i.getTen();
 				ngaySinh = (i.getNgaySinh()).toString();

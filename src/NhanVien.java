@@ -9,8 +9,8 @@ public class NhanVien {
 	//Các thuộc tính
 	private String ho, ten;
 	private LocalDate ngaySinh;
-	private static String id;
-	private String maPhongBan;
+	private static int id = 1000;
+	private int maPhongBan;
 	private long luongCanBan;
 	
 	//Các hàm get và set của class
@@ -24,10 +24,10 @@ public class NhanVien {
 	public LocalDate getNgaySinh() {
 		return ngaySinh;
 	}
-	public String getID() {
+	public int getID() {
 		return id;
 	}
-	public String getMaPhongBan() {
+	public int getMaPhongBan() {
 		return maPhongBan;
 	}
 	public long getLuongCanBan() {
@@ -58,14 +58,15 @@ public class NhanVien {
 			ngaySinh = LocalDate.parse(newNgaySinh, DateTimeFormatter.BASIC_ISO_DATE);
 		}
 	}
-	/* public void setId(String newId) {
-		id = newId;
-	} */
-	public void setMaPhongBan(String newMaPhongBan) {
+	public void setMaPhongBan(int newMaPhongBan) {
 		if(maPhongBanKhongHopLe(newMaPhongBan)) return;
 		maPhongBan = newMaPhongBan;
 	}
 	
+	//Hàm tự tăng giá trị của id
+	public void setID() {
+		id++;
+	} 
 	//Các hàm kiểm tra điều kiện
 	
 		//*** Kiểm tra điều kiện của ngày sinh ***
@@ -81,15 +82,18 @@ public class NhanVien {
 		return false;
 	}
 
+	/*
 		//*** Kiểm tra điều kiện của id ***
 	private boolean idKhongHopLe(String newId) {
 		if(newId.length() != NhanVien_CONST.NUMBEROFCHAR_ID) return true;
 		return false;
 	}
+	*/
 	
 		//*** Kiểm tra điều kiện của maPhongBan ***
-	private boolean maPhongBanKhongHopLe(String newMaPhongBan) {
-		if(newMaPhongBan.length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN) return true;
+	private boolean maPhongBanKhongHopLe(int newMaPhongBan) {
+		String temp = String.valueOf(newMaPhongBan);
+		if(temp.length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN) return true;
 		return false;
 	}
 	
@@ -101,20 +105,18 @@ public class NhanVien {
 		ho = "";
 		ten = "";
 		ngaySinh = LocalDate.parse("0001-01-01");
-		id = "";
-		maPhongBan = "";
+		setID();
+		maPhongBan = 0;
 	}
 	
 		//*** Constructor có tham số ***
-	public NhanVien(String newHo, String newTen, String newNgaySinh, String newGioiTinh, String newId, 
-			String newMaPhongBan) {
+	public NhanVien(String newHo, String newTen, String newNgaySinh, String newGioiTinh, int newMaPhongBan) {
 		ho = newHo;
 		ten = newTen;
 		setNgaySinh(newNgaySinh);
-		id = newId;
+		setID();
 		maPhongBan = newMaPhongBan;
-		if(idKhongHopLe(id)) id = "";
-		if(maPhongBanKhongHopLe(maPhongBan)) maPhongBan = "";
+		if(maPhongBanKhongHopLe(maPhongBan)) maPhongBan = 0;
 	}
 	
 	
@@ -153,14 +155,14 @@ public class NhanVien {
 		id = newId;
 	} */
 	public void nhapMaPhongBan() {
-		String newMaPhongBan;
+		int newMaPhongBan;
 		System.out.print("Nhap ma phong ban: ");
-		newMaPhongBan = scan.nextLine();
+		newMaPhongBan = Integer.parseInt(scan.nextLine());
 		while(maPhongBanKhongHopLe(newMaPhongBan)) {
 			System.out.println("Ma phong ban khong hop le!! (Phai co "+NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN
 					+" ki tu)");
 			System.out.print("Nhap ma phong ban: ");
-			newMaPhongBan = scan.nextLine();
+			newMaPhongBan = Integer.parseInt(scan.nextLine());
 		}
 		maPhongBan = newMaPhongBan;
 	}

@@ -30,8 +30,8 @@ public class NhanVienChinhThuc extends NhanVien{
 	
 		//*** Constructor có tham số ***
 	public NhanVienChinhThuc(String newHo, String newTen, String newNgaySinh, String newGioiTinh, 
-			String newId, String newMaPhongBan, double newTienBaoHiem) {
-		super(newHo, newTen, newNgaySinh, newGioiTinh, newId, newMaPhongBan);
+			 int newMaPhongBan, double newTienBaoHiem) {
+		super(newHo, newTen, newNgaySinh, newGioiTinh, newMaPhongBan);
 		tienBaoHiem = newTienBaoHiem;
 		if(tienBaoHiemKhongHopLe(tienBaoHiem)) tienBaoHiem = 0;
 	}
