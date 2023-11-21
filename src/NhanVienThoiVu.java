@@ -29,9 +29,9 @@ public class NhanVienThoiVu extends NhanVien {
 	}
 	
 		//*** Constructor có tham số ***
-	public NhanVienThoiVu(String newHo, String newTen, String newNgaySinh, String newGioiTinh, 
-			int newMaPhongBan, int newThoiHanLamViec) {
-		super(newHo, newTen, newNgaySinh, newGioiTinh, newMaPhongBan);
+	public NhanVienThoiVu(int newID, String newHo, String newTen, String newNgaySinh, int newMaPhongBan, 
+			int newThoiHanLamViec) {
+		super(newID, newHo, newTen, newNgaySinh, newMaPhongBan);
 		thoiHanLamViec = newThoiHanLamViec;
 		if(thoiHanLamViecKhongHopLe(thoiHanLamViec)) thoiHanLamViec = 0;
 	}

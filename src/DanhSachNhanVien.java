@@ -341,12 +341,12 @@ public class DanhSachNhanVien extends DanhSach{
 			while(scan.hasNextLine()) {
 				NhanVien newNV = new NhanVien();
 				String temp = scan.nextLine();
-				String arr[] = temp.split("|");
+				String arr[] = temp.split(",");
 				if(arr[0].intern() == "1") {
 					newNV = (NhanVienThoiVu)newNV;
 				} else {
 					newNV = (NhanVienChinhThuc)newNV;
-				};
+				};	
 				newNV.setHoTen(arr[1]);
 				newNV.setNgaySinh(arr[2]);
 				newNV.setMaPhongBan(Integer.parseInt(arr[3]));
@@ -375,12 +375,13 @@ public class DanhSachNhanVien extends DanhSach{
 					fw.write("2|");
 				}
 				String ho, ten, ngaySinh;
-				int maPhongBan;
+				int id, maPhongBan;
+				id = i.getID();
 				ho = i.getHo();
 				ten = i.getTen();
 				ngaySinh = (i.getNgaySinh()).toString();
 				maPhongBan = i.getMaPhongBan();
-				fw.write(ho+" "+ten+"|"+ngaySinh+"|"+maPhongBan+"|");
+				fw.write(String.valueOf(id)+","+ho+" "+ten+","+ngaySinh+","+maPhongBan+",");
 				if (i instanceof NhanVienThoiVu) {
 					int temp = ((NhanVienThoiVu)i).getThoiHanLamViec();
 					String thoiHanLamViec = String.valueOf(temp);

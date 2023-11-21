@@ -7,14 +7,18 @@ public class NhanVien {
 	public Scanner scan = new Scanner(System.in);
 	
 	//Các thuộc tính
+	private int id;
 	private String ho, ten;
 	private LocalDate ngaySinh;
-	private static int id = 1000;
+	private static int count = 1000;
 	private int maPhongBan;
 	private long luongCanBan;
 	
 	//Các hàm get và set của class
 		//*** Các hàm get ***
+	public int getID() {
+		return id;
+	}
 	public String getHo() {
 		return ho;
 	}
@@ -23,9 +27,6 @@ public class NhanVien {
 	}
 	public LocalDate getNgaySinh() {
 		return ngaySinh;
-	}
-	public int getID() {
-		return id;
 	}
 	public int getMaPhongBan() {
 		return maPhongBan;
@@ -64,8 +65,8 @@ public class NhanVien {
 	}
 	
 	//Hàm tự tăng giá trị của id
-	public void setID() {
-		id++;
+	public void setNextID() {
+		id = count++;
 	} 
 	//Các hàm kiểm tra điều kiện
 	
@@ -82,13 +83,11 @@ public class NhanVien {
 		return false;
 	}
 
-	/*
 		//*** Kiểm tra điều kiện của id ***
-	private boolean idKhongHopLe(String newId) {
-		if(newId.length() != NhanVien_CONST.NUMBEROFCHAR_ID) return true;
+	private boolean idKhongHopLe(int newID) {
+		if((String.valueOf(newID)).length() != NhanVien_CONST.NUMBEROFCHAR_ID) return true;
 		return false;
 	}
-	*/
 	
 		//*** Kiểm tra điều kiện của maPhongBan ***
 	private boolean maPhongBanKhongHopLe(int newMaPhongBan) {
@@ -102,19 +101,20 @@ public class NhanVien {
 	
 		//*** Constructor không tham số ***
 	public NhanVien() {
+		id = 0;
 		ho = "";
 		ten = "";
 		ngaySinh = LocalDate.parse("0001-01-01");
-		setID();
 		maPhongBan = 0;
 	}
 	
 		//*** Constructor có tham số ***
-	public NhanVien(String newHo, String newTen, String newNgaySinh, String newGioiTinh, int newMaPhongBan) {
+	public NhanVien(int newID, String newHo, String newTen, String newNgaySinh, int newMaPhongBan) {
+		id = newID;
+		if(idKhongHopLe(id)) id = 0;
 		ho = newHo;
 		ten = newTen;
 		setNgaySinh(newNgaySinh);
-		setID();
 		maPhongBan = newMaPhongBan;
 		if(maPhongBanKhongHopLe(maPhongBan)) maPhongBan = 0;
 	}
@@ -171,20 +171,20 @@ public class NhanVien {
 	public void nhap() {
 		nhapHoTen();
 		nhapNgaySinh();
-		//nhapId();
+		setNextID();
 	}
 	
 		//*** Hàm xuất
 	
 			//***** Các hàm xuất thành phần *****
+	private void xuatID() {
+		System.out.println("Ma so: "+id);
+	}
 	private void xuatHoTen() {
 		System.out.println("Ho va ten: "+ho+" "+ten);
 	}
 	private void xuatNgaySinh() {
 		System.out.println("Ngay thang nam sinh: "+ngaySinh);
-	}
-	private void xuatID() {
-		System.out.println("Ma so: "+id);
 	}
 	private void xuatLuongCanBan() {
 		System.out.println("Muc Luong: "+luongCanBan);
@@ -192,9 +192,9 @@ public class NhanVien {
 	
 			//***** Hàm xuất tổng hợp *****
 	public void xuat() {
+		xuatID();
 		xuatHoTen();
 		xuatNgaySinh();
-		xuatID();
 		xuatLuongCanBan();
 	}
 	//Hàm tính tổng số lượng nhân viên
