@@ -60,7 +60,6 @@ public class NhanVien {
 		}
 	}
 	public void setMaPhongBan(int newMaPhongBan) {
-		if(maPhongBanKhongHopLe(newMaPhongBan)) return;
 		maPhongBan = newMaPhongBan;
 	}
 	
@@ -154,6 +153,7 @@ public class NhanVien {
 		}
 		id = newId;
 	} */
+	/*
 	public void nhapMaPhongBan() {
 		int newMaPhongBan;
 		System.out.print("Nhap ma phong ban: ");
@@ -166,6 +166,7 @@ public class NhanVien {
 		}
 		maPhongBan = newMaPhongBan;
 	}
+	*/
 	
 			//***** Hàm nhập tổng hợp *****
 	public void nhap() {
@@ -178,13 +179,16 @@ public class NhanVien {
 	
 			//***** Các hàm xuất thành phần *****
 	private void xuatID() {
-		System.out.println("Ma so: "+id);
+		System.out.println("Ma so nhan vien: "+id);
 	}
 	private void xuatHoTen() {
 		System.out.println("Ho va ten: "+ho+" "+ten);
 	}
 	private void xuatNgaySinh() {
 		System.out.println("Ngay thang nam sinh: "+ngaySinh);
+	}
+	private void xuatMaPhongBan() {
+		System.out.println("Ma phong ban: "+maPhongBan);
 	}
 	private void xuatLuongCanBan() {
 		System.out.println("Muc Luong: "+luongCanBan);
@@ -195,6 +199,7 @@ public class NhanVien {
 		xuatID();
 		xuatHoTen();
 		xuatNgaySinh();
+		xuatMaPhongBan();
 		xuatLuongCanBan();
 	}
 	//Hàm tính tổng số lượng nhân viên

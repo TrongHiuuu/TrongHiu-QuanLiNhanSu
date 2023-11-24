@@ -229,7 +229,7 @@ public class DanhSachNhanVien extends DanhSach{
 			i.xuat();
 		}
 	}
-	//Phương thức xóa
+	//Phương thức xóa nhân viên
 	@Override public void xoa() {
 		ArrayList<NhanVien> danhSachNhanVienCanXoa = danhSachCanTim();
 		if (danhSachNhanVienCanXoa == null) {
@@ -269,6 +269,23 @@ public class DanhSachNhanVien extends DanhSach{
 		}
 	}
 	
+	//Phương thức xóa mã phòng ban
+	public void xoaMaPhongBan() {
+		int maPhongBanCanXoa;
+		System.out.print("Nhap ma phong ban can xoa: ");
+		maPhongBanCanXoa = Integer.parseInt(scan.nextLine());
+		do {
+			System.out.println("Ma phong ban khong hop le!! (ma phong ban phai co "+
+					NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN+" ki tu)");
+			System.out.print("Nhap ma phong ban can xoa: ");
+			maPhongBanCanXoa = Integer.parseInt(scan.nextLine());
+		} while((String.valueOf(maPhongBanCanXoa)).length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN);
+		for(NhanVien i: danhSachNhanVien) {
+			if(i.getMaPhongBan() == maPhongBanCanXoa) {
+				i.setMaPhongBan(0);
+			}
+		}
+	}
 	//Phương thức sửa
 	@Override public void sua() {
 		ArrayList<NhanVien> danhSachNhanVienCanSua = danhSachCanTim();
@@ -299,17 +316,16 @@ public class DanhSachNhanVien extends DanhSach{
 			System.out.println("Chon thong tin can sua:");
 			System.out.println("1. Ho Ten");
 			System.out.println("2. Ngay sinh");
-			System.out.println("3. Ma phong Ban");
 			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienThoiVu) {
-				System.out.println("4. Tien bao hiem");
+				System.out.println("3. Tien bao hiem");
 			}
 			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
-				System.out.println("4. Thoi han lam viec");
+				System.out.println("3. Thoi han lam viec");
 			}
 			do {
 				System.out.print("Nhap lua chon: ");
 				luaChon = Integer.parseInt(scan.nextLine());
-			} while(luaChon < 1 || luaChon > 4);
+			} while(luaChon < 1 || luaChon > 3);
 			switch(luaChon) {
 				case 1:
 					(danhSachNhanVien.get(index)).nhapHoTen();;
@@ -318,9 +334,6 @@ public class DanhSachNhanVien extends DanhSach{
 					(danhSachNhanVien.get(index)).nhapNgaySinh();
 					break;
 				case 3:
-					(danhSachNhanVien.get(index)).nhapMaPhongBan();
-					break;
-				case 4:
 					if (danhSachNhanVien.get(index) instanceof NhanVienThoiVu) {
 						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapThoiHanLamViec();
 					}
