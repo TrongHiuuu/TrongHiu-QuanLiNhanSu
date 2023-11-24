@@ -15,6 +15,45 @@ public class DanhSachNhanVien extends DanhSach{
 	public DanhSachNhanVien(NhanVien nv1) {
 		danhSachNhanVien.add(nv1);
 	}
+	
+	//Menu của class
+	public void menu() {
+		int luaChon;
+		System.out.println("=====================================================");
+		System.out.println("|1. Xuat danh sach nhan vien");
+		System.out.println("|2. Them mot nhan vien vao danh sach");
+		System.out.println("|3. Tim kiem nhan vien trong danh sach");
+		System.out.println("|4. Xoa nhan vien trong danh sach");
+		System.out.println("|5. Sua thong tin nhan vien trong danh sach");
+		System.out.println("|0. Thoat");
+		System.out.println("=====================================================");
+		do {
+			System.out.print("Nhap lua chon (0 -> 5): ");
+			luaChon = Integer.parseInt(scan.nextLine());
+		} while(luaChon < 0 || luaChon > 5);
+		switch(luaChon) {
+			case 1: 
+				xuat(); 
+				break;
+			case 2: 
+				them(); 
+				break;
+			case 3:
+				tim();
+				break;
+			case 4:
+				xoa();
+				break;
+			case 5:
+				sua();
+				break;
+			case 0:
+				System.out.println("Thoat danh sach nhan vien thanh cong");
+				return;
+		}
+		
+	}
+	
 	//Phương thức xuất
 	@Override public void xuat() {
 		System.out.println("=====================================================");
@@ -49,16 +88,16 @@ public class DanhSachNhanVien extends DanhSach{
 			return -1;
 		}
 		int luaChon = -1;
-		System.out.println("===========================================");
+		System.out.println("=====================================================");
 		System.out.println("|1. Tim theo ma so nhan vien.");
 		System.out.println("|2. Tim theo ten nhan vien.");
 		System.out.println("|3. Tim theo ma phong ban nhan vien.");
 		System.out.println("|4. Tim theo loai nhan vien.");
 		//System.out.println("|5. Tim theo muc luong nhan vien.");
 		System.out.println("|0. Huy tim kiem.");
-		System.out.println("===========================================");
+		System.out.println("=====================================================");
 		do {
-			System.out.println("Nhap lua chon: ");
+			System.out.println("Nhap lua chon (0 -> 4): ");
 			luaChon = Integer.parseInt(scan.nextLine());
 		} while (luaChon < 0 || luaChon > 4);
 		return luaChon;
@@ -248,7 +287,7 @@ public class DanhSachNhanVien extends DanhSach{
 			System.out.println("2. xoa tat ca nhan vien trong danh sach");
 			System.out.println("0. Thoat");
 			do {
-				System.out.print("Nhap lua chon: ");
+				System.out.print("Nhap lua chon (0 -> 2): ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 0 || luaChon > 2);
 			if (luaChon == 1) {
@@ -304,7 +343,7 @@ public class DanhSachNhanVien extends DanhSach{
 			System.out.println("1. Chon 1 nhan vien can sua");
 			System.out.println("0. Thoat");
 			do {
-				System.out.print("Nhap lua chon: ");
+				System.out.print("Nhap lua chon (0 -> 1): ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 0 || luaChon > 1);
 			if(luaChon == 0) return;
@@ -323,7 +362,7 @@ public class DanhSachNhanVien extends DanhSach{
 				System.out.println("3. Thoi han lam viec");
 			}
 			do {
-				System.out.print("Nhap lua chon: ");
+				System.out.print("Nhap lua chon (1 -> 3): ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 1 || luaChon > 3);
 			switch(luaChon) {
@@ -348,26 +387,29 @@ public class DanhSachNhanVien extends DanhSach{
 	//Đọc, ghi file
 	
 		//*** Đọc file ***
-	public void DocFile(File inputFile) {
+	public void docFile(File inputFile) {
 		try {
 			Scanner scan = new Scanner(inputFile);
 			while(scan.hasNextLine()) {
-				NhanVien newNV = new NhanVien();
 				String temp = scan.nextLine();
-				String arr[] = temp.split(",");
+				String arr[] = temp.split(",");	
 				if(arr[0].intern() == "1") {
-					newNV = (NhanVienThoiVu)newNV;
-				} else {
-					newNV = (NhanVienChinhThuc)newNV;
-				};	
-				newNV.setHoTen(arr[1]);
-				newNV.setNgaySinh(arr[2]);
-				newNV.setMaPhongBan(Integer.parseInt(arr[3]));
-				if(newNV instanceof NhanVienThoiVu) {
-					((NhanVienThoiVu)newNV).setThoiHanLamViec(Integer.parseInt(arr[4]));
+					NhanVienThoiVu newNV = new NhanVienThoiVu();
+					newNV.setNextID();
+					newNV.setHoTen(arr[1]);
+					newNV.setNgaySinh(arr[2]);
+					newNV.setMaPhongBan(Integer.parseInt(arr[3]));
+					newNV.setThoiHanLamViec(Integer.parseInt(arr[4]));
+					danhSachNhanVien.add(newNV);
 				}
-				if(newNV instanceof NhanVienChinhThuc) {
-					((NhanVienChinhThuc)newNV).setTienBaoHiem(Double.parseDouble(arr[4]));
+				if(arr[0].intern() == "2") {
+					NhanVienChinhThuc newNV = new NhanVienChinhThuc();
+					newNV.setNextID();
+					newNV.setHoTen(arr[1]);
+					newNV.setNgaySinh(arr[2]);
+					newNV.setMaPhongBan(Integer.parseInt(arr[3]));
+					newNV.setTienBaoHiem(Double.parseDouble(arr[4]));
+					danhSachNhanVien.add(newNV);
 				}
 			}
 			scan.close();
@@ -377,15 +419,15 @@ public class DanhSachNhanVien extends DanhSach{
 	}
 	
 		//*** Ghi file ***
-	public void GhiFile(File outputFile) {
+	public void ghiFile(File outputFile) {
 		try {
-			FileWriter fw = new FileWriter(outputFile,true);
+			FileWriter fw = new FileWriter(outputFile);
 			for(NhanVien i: danhSachNhanVien) {
 				if (i instanceof NhanVienThoiVu) {
-					fw.write("1|");
+					fw.write("1,");
 				}
 				if (i instanceof NhanVienChinhThuc) {
-					fw.write("2|");
+					fw.write("2,");
 				}
 				String ho, ten, ngaySinh;
 				int id, maPhongBan;
@@ -405,8 +447,10 @@ public class DanhSachNhanVien extends DanhSach{
 					String tienBaoHiem = String.valueOf(temp);
 					fw.write(tienBaoHiem);
 				}
+				fw.write("\n");
 			}
 			fw.close();
+			System.out.println("Da ghi du lieu vao file theo duong dan: "+outputFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -72,7 +72,7 @@ public class NhanVien {
 		//*** Kiểm tra điều kiện của ngày sinh ***
 	private boolean ngaySinhKhongHopLe(String newNgaySinh) {
 		try {
-			if (newNgaySinh.contains("-") == true) {
+			if ((newNgaySinh.intern()).contains("-") == true) {
 				LocalDate newDate = LocalDate.parse(newNgaySinh);
 			} else {
 				LocalDate newDate = LocalDate.parse(newNgaySinh, DateTimeFormatter.BASIC_ISO_DATE);

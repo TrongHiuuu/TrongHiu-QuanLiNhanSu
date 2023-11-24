@@ -42,11 +42,12 @@ public class NhanVienThoiVu extends NhanVien {
 			//***** Các hàm nhập thành phần mới *****
 	public void nhapThoiHanLamViec() {
 		int newThoiHanLamViec;
-		System.out.print("Nhap thoi han lam viec: ");
+		System.out.print("Nhap thoi han lam viec (thang): ");
 		newThoiHanLamViec = Integer.parseInt(scan.nextLine());
 		while(thoiHanLamViecKhongHopLe(newThoiHanLamViec)) {
-			System.out.println("Thoi han lam viec khong hop le!! (Phai lon hon 0)");
-			System.out.print("Nhap thoi han lam viec: ");
+			System.out.println("Thoi han lam viec khong hop le!! (Phai lon hon 0 va nho hon hoac bang "+
+					NhanVien_CONST.MAX_OF_THOIHANLAMVIEC+" thang)");
+			System.out.print("Nhap thoi han lam viec (thang): ");
 			newThoiHanLamViec = Integer.parseInt(scan.nextLine());
 		}
 		thoiHanLamViec = newThoiHanLamViec;
@@ -62,7 +63,7 @@ public class NhanVienThoiVu extends NhanVien {
 	
 			//***** Các hàm xuất thành phần mới *****
 	private void xuatThoiHanLamViec() {
-		System.out.println("Thoi han lam viec: "+thoiHanLamViec);
+		System.out.println("Thoi han lam viec: "+thoiHanLamViec+" thang");
 	}
 	
 			//*** Hàm xuất tổng hợp ***
