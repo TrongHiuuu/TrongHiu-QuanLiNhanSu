@@ -36,6 +36,9 @@ public class NhanVien {
 	}
 	
 		//*** Các hàm set ***
+	public void setID(int newID) {
+		id = newID;
+	}
 	public void setHo(String newHo) {
 		ho = newHo;
 	}
@@ -67,6 +70,10 @@ public class NhanVien {
 	public void setNextID() {
 		id = count++;
 	} 
+	//Hàm set biến đếm
+	public static void setCount(int newCount) {
+		count = newCount + 1;
+	}
 	//Các hàm kiểm tra điều kiện
 	
 		//*** Kiểm tra điều kiện của ngày sinh ***

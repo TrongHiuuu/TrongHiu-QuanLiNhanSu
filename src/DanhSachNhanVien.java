@@ -387,30 +387,32 @@ public class DanhSachNhanVien extends DanhSach{
 	//Đọc, ghi file
 	
 		//*** Đọc file ***
-	public void docFile(File inputFile) {
+	public void docFile() {
 		try {
+			File inputFile = new File("C:/Users/ACER/eclipse-workspace/InputFile.txt");
 			Scanner scan = new Scanner(inputFile);
 			while(scan.hasNextLine()) {
 				String temp = scan.nextLine();
 				String arr[] = temp.split(",");	
 				if(arr[0].intern() == "1") {
 					NhanVienThoiVu newNV = new NhanVienThoiVu();
-					newNV.setNextID();
-					newNV.setHoTen(arr[1]);
-					newNV.setNgaySinh(arr[2]);
-					newNV.setMaPhongBan(Integer.parseInt(arr[3]));
-					newNV.setThoiHanLamViec(Integer.parseInt(arr[4]));
+					newNV.setID(Integer.parseInt(arr[1]));
+					newNV.setHoTen(arr[2]);
+					newNV.setNgaySinh(arr[3]);
+					newNV.setMaPhongBan(Integer.parseInt(arr[4]));
+					newNV.setThoiHanLamViec(Integer.parseInt(arr[5]));
 					danhSachNhanVien.add(newNV);
 				}
 				if(arr[0].intern() == "2") {
 					NhanVienChinhThuc newNV = new NhanVienChinhThuc();
-					newNV.setNextID();
-					newNV.setHoTen(arr[1]);
-					newNV.setNgaySinh(arr[2]);
-					newNV.setMaPhongBan(Integer.parseInt(arr[3]));
-					newNV.setTienBaoHiem(Double.parseDouble(arr[4]));
+					newNV.setID(Integer.parseInt(arr[1]));
+					newNV.setHoTen(arr[2]);
+					newNV.setNgaySinh(arr[3]);
+					newNV.setMaPhongBan(Integer.parseInt(arr[4]));
+					newNV.setTienBaoHiem(Double.parseDouble(arr[5]));
 					danhSachNhanVien.add(newNV);
 				}
+				NhanVien.setCount((danhSachNhanVien.get(danhSachNhanVien.size()-1)).getID());
 			}
 			scan.close();
 		} catch(Exception e) {
@@ -419,8 +421,9 @@ public class DanhSachNhanVien extends DanhSach{
 	}
 	
 		//*** Ghi file ***
-	public void ghiFile(File outputFile) {
+	public void ghiFile() {
 		try {
+			File outputFile = new File("C:/Users/ACER/eclipse-workspace/InputFile.txt");
 			FileWriter fw = new FileWriter(outputFile);
 			for(NhanVien i: danhSachNhanVien) {
 				if (i instanceof NhanVienThoiVu) {
