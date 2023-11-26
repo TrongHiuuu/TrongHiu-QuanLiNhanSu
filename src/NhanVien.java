@@ -48,14 +48,20 @@ public class NhanVien {
 	public void setHoTen(String newHoTen) {
 		newHoTen = newHoTen.trim();
 		String[] temp = newHoTen.split(" ");
-		ten = temp[temp.length-1];
-		for(int i=0;i<temp.length - 1;i++) {
-			ho = ho + temp[i] + " ";
+		int count = temp.length;
+		if(count == 1) {
+			ten = temp[0];
 		}
-		ho = ho.trim();
+		else {
+			ten = temp[temp.length-1];
+			for(int i=0;i<temp.length-1;i++) {
+				ho = ho + temp[i] + " ";
+			}
+			ho = ho.trim();
+		}
 	}
 	public void setNgaySinh(String newNgaySinh) {
-		if(newNgaySinh.contains("-")) {
+		if((newNgaySinh.intern()).contains("-")) {
 			ngaySinh = LocalDate.parse(newNgaySinh);
 		}
 		else {

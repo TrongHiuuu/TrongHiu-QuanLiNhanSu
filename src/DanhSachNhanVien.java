@@ -59,7 +59,6 @@ public class DanhSachNhanVien extends DanhSach{
 		System.out.println("=====================================================");
 		for(NhanVien i: danhSachNhanVien) {
 			i.xuat();
-			System.out.println("=====================================================");
 		}
 	}
 	
@@ -264,6 +263,7 @@ public class DanhSachNhanVien extends DanhSach{
 			return;
 		}
 		System.out.println("Danh sach cac nhan vien can tim la: ");
+		System.out.println("=====================================================");
 		for(NhanVien i: danhSachTimDuoc) {
 			i.xuat();
 		}
@@ -275,16 +275,16 @@ public class DanhSachNhanVien extends DanhSach{
 			System.out.println("Khong co nhan vien nao trong danh sach can tim...");
 			return;
 		}
-		int luaChon, stt;
+		int luaChon, stt, count = 1;
 		while (danhSachNhanVienCanXoa.size() > 0) {
 			System.out.println("Danh sach cac nhan vien can xoa: ");
+			System.out.println("=====================================================");
 			for(NhanVien i: danhSachNhanVienCanXoa) {
-				int count = 1;
 				System.out.println(count+". ");i.xuat();
 				count++;
 			}
 			System.out.println("1. Xoa 1 nhan vien trong danh sach");
-			System.out.println("2. xoa tat ca nhan vien trong danh sach");
+			System.out.println("2. Xoa tat ca nhan vien trong danh sach");
 			System.out.println("0. Thoat");
 			do {
 				System.out.print("Nhap lua chon (0 -> 2): ");
@@ -301,7 +301,7 @@ public class DanhSachNhanVien extends DanhSach{
 			} 
 			if (luaChon == 2) {			
 				danhSachNhanVien.removeAll(danhSachNhanVienCanXoa);
-				danhSachNhanVien.clear();
+				danhSachNhanVienCanXoa.clear();
 				System.out.println("Da xoa cac nhan vien trong danh sach tren!!");
 			}
 			if (luaChon == 0) return;
@@ -333,10 +333,10 @@ public class DanhSachNhanVien extends DanhSach{
 			return;
 		}
 		while(danhSachNhanVienCanSua.size() > 0) {
-			int stt, luaChon ;
+			int stt, luaChon, count = 1 ;
 			System.out.println("Danh sach nhan vien can sua: ");
+			System.out.println("=====================================================");
 			for(NhanVien i: danhSachNhanVienCanSua) {
-				int count = 1;
 				System.out.println(count+". ");i.xuat();
 				count++;
 			}
@@ -346,12 +346,15 @@ public class DanhSachNhanVien extends DanhSach{
 				System.out.print("Nhap lua chon (0 -> 1): ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 0 || luaChon > 1);
-			if(luaChon == 0) return;
+			if(luaChon == 0) {
+				return;
+			}
 			do {
 				System.out.print("Nhap STT nhan vien can sua: ");
 				stt = Integer.parseInt(scan.nextLine());
 			} while(stt < 0 || stt > danhSachNhanVienCanSua.size());
 			int index = danhSachNhanVien.indexOf(danhSachNhanVienCanSua.get(stt-1));
+			System.out.println("=====================================================");
 			System.out.println("Chon thong tin can sua:");
 			System.out.println("1. Ho Ten");
 			System.out.println("2. Ngay sinh");
@@ -361,13 +364,14 @@ public class DanhSachNhanVien extends DanhSach{
 			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
 				System.out.println("3. Thoi han lam viec");
 			}
+			System.out.println("=====================================================");
 			do {
 				System.out.print("Nhap lua chon (1 -> 3): ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 1 || luaChon > 3);
 			switch(luaChon) {
 				case 1:
-					(danhSachNhanVien.get(index)).nhapHoTen();;
+					(danhSachNhanVien.get(index)).nhapHoTen();
 					break;
 				case 2:
 					(danhSachNhanVien.get(index)).nhapNgaySinh();

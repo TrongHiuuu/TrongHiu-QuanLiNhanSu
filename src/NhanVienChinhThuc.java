@@ -68,5 +68,6 @@ public class NhanVienChinhThuc extends NhanVien{
 	@Override public void xuat() {
 		super.xuat();
 		xuatTienBaoHiem();
+		System.out.println("=====================================================");
 	}
 }
