@@ -3,9 +3,9 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 
-public class DanhSachNhanVien extends DanhSach{
+public class DanhSachNhanVien implements DanhSach{
 	//Khai báo mảng các nhân viên
-	private static ArrayList<NhanVien> danhSachNhanVien = new ArrayList<NhanVien>();
+	private ArrayList<NhanVien> danhSachNhanVien = new ArrayList<NhanVien>();
 	public Scanner scan = new Scanner(System.in);
 	
 	//Các constructor của class
@@ -15,9 +15,18 @@ public class DanhSachNhanVien extends DanhSach{
 	public DanhSachNhanVien(NhanVien nv1) {
 		danhSachNhanVien.add(nv1);
 	}
+
+	// get&set dsnhanvien
+	public ArrayList<NhanVien> getDanhSachNhanVien() {
+		return danhSachNhanVien;
+	}
+
+	public void setDanhSachNhanVien(ArrayList<NhanVien> newDanhSachNhanVien) {
+		danhSachNhanVien = newDanhSachNhanVien;
+	}
 	
 	//Menu của class
-	public void menu() {
+	public void menu(DanhSachPhongBan danhSachPhongBan, DanhSachBangLuong danhSachBangLuong,DanhSachDuAn danhSachDuAn) {
 		int luaChon;
 		System.out.println("=====================================================");
 		System.out.println("|1. Xuat danh sach nhan vien");
@@ -42,10 +51,10 @@ public class DanhSachNhanVien extends DanhSach{
 				tim();
 				break;
 			case 4:
-				xoa();
+				xoa(danhSachPhongBan, danhSachBangLuong, danhSachDuAn);
 				break;
 			case 5:
-				sua();
+				sua(danhSachPhongBan, danhSachBangLuong, danhSachDuAn);
 				break;
 			case 0:
 				System.out.println("Thoat danh sach nhan vien thanh cong");
@@ -63,25 +72,25 @@ public class DanhSachNhanVien extends DanhSach{
 	}
 	
 	//Phương thức thêm
-	@Override public void them() {
+	public void them() {
 		int luaChon;
 		do {
-			System.out.print("Nhap loai nhan vien can them (1.Nhan vien thoi vu   2. Nhan vien Chinh thuc): ");
+			System.out.print("Nhap loai nhan vien can them (1.Nhan vien chinh thuc   2. Nhan vien thoi vu): ");
 			luaChon = Integer.parseInt(scan.nextLine());
 		} while(luaChon < 1 || luaChon > 2);
 		if (luaChon == 1) {
-			NhanVienThoiVu newNhanVien = new NhanVienThoiVu();
+			NhanVienChinhThuc newNhanVien = new NhanVienChinhThuc();
 			newNhanVien.nhap();
 			danhSachNhanVien.add(newNhanVien);
 		}
-		else {
-			NhanVienChinhThuc newNhanVien = new NhanVienChinhThuc();
+		if (luaChon == 2) {
+			NhanVienThoiVu newNhanVien = new NhanVienThoiVu();
 			newNhanVien.nhap();
 			danhSachNhanVien.add(newNhanVien);
 		}
 	}
 	//Menu tìm kiếm
-	@Override protected int menuTim() {
+	@Override public int menuTim() {
 		if(danhSachNhanVien.size() == 0) {
 			System.out.println("Khong co nhan vien nao trong danh sach!!!");
 			return -1;
@@ -110,7 +119,7 @@ public class DanhSachNhanVien extends DanhSach{
 		ArrayList<NhanVien> nhanVienCanTim = new ArrayList<NhanVien>();
 		System.out.print("Nhap ma so nhan vien can tim: ");
 		idCanTim = Integer.parseInt(scan.nextLine());
-		while((String.valueOf(idCanTim)).length() != NhanVien_CONST.NUMBEROFCHAR_ID) {
+		while(NhanVien.idKhongHopLe(idCanTim)) {
 			System.out.println("Ma so khong hop le!! (Ma so nhan vien phai co "+
 					NhanVien_CONST.NUMBEROFCHAR_ID+" ki tu)");
 			System.out.print("Nhap ma so nhan vien can tim: ");
@@ -146,7 +155,7 @@ public class DanhSachNhanVien extends DanhSach{
 		ArrayList<NhanVien> danhSachNhanVienPhongBan = new ArrayList<NhanVien>();
 		System.out.print("Nhap ma phong ban can tim: ");
 		maPhongBanCanTim = Integer.parseInt(scan.nextLine());
-		while((String.valueOf(maPhongBanCanTim)).length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN) {
+		while(NhanVien.maPhongBanKhongHopLe(maPhongBanCanTim)) {
 			System.out.println("Ma phong ban khong hop le (Ma phong ban phai co "+
 					NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN+" ki tu");
 			System.out.print("Nhap ma phong ban can tim: ");
@@ -165,19 +174,11 @@ public class DanhSachNhanVien extends DanhSach{
 	private ArrayList<NhanVien> timLoaiNhanVien() {
 		int luaChon;
 		do {
-			System.out.print("Nhap loai nhan vien can tim (1.Nhan vien thoi vu   2. Nhan vien Chinh thuc): ");
+			System.out.print("Nhap loai nhan vien can tim (1.Nhan vien chinh thuc   2. Nhan vien Chinh thuc): ");
 			luaChon = Integer.parseInt(scan.nextLine());
 		} while(luaChon < 1 || luaChon > 2);
 		switch(luaChon) {
 			case 1:
-				ArrayList<NhanVien> danhSachNhanVienThoiVu = new ArrayList<NhanVien>();
-				for(NhanVien i: danhSachNhanVien) {
-					if(i instanceof NhanVienThoiVu) {
-						danhSachNhanVienThoiVu.add(i);
-					}
-				}
-				return danhSachNhanVienThoiVu;
-			case 2:
 				ArrayList<NhanVien> danhSachNhanVienChinhThuc = new ArrayList<NhanVien>();
 				for(NhanVien i: danhSachNhanVien) {
 					if(i instanceof NhanVienChinhThuc) {
@@ -185,51 +186,18 @@ public class DanhSachNhanVien extends DanhSach{
 					}
 				}
 				return danhSachNhanVienChinhThuc;
+			case 2:
+				ArrayList<NhanVien> danhSachNhanVienThoiVu = new ArrayList<NhanVien>();
+				for(NhanVien i: danhSachNhanVien) {
+					if(i instanceof NhanVienThoiVu) {
+						danhSachNhanVienThoiVu.add(i);
+					}
+				}
+				return danhSachNhanVienThoiVu;
 		}
 		return null;
 	}
 	
-			//***** Tìm theo mức lương *****
-	/*private ArrayList<NhanVien> timluongCanBan() {
-		int luaChon;
-		long luongCanBanCanTim;
-		ArrayList<NhanVien> danhSachNhanVienTheoluongCanBan = new ArrayList<NhanVien>();
-		do {
-			System.out.println("Chon phan loai muc luong(1. >; 2. <; 3. =): ");
-			luaChon = Integer.parseInt(scan.nextLine());
-		} while(luaChon < 1 || luaChon > 3);
-		do {
-			System.out.println("Nhap muc luong can tim: ");
-			luongCanBanCanTim = Long.parseLong(scan.nextLine());
-		} while(luongCanBanCanTim < 0);
-		switch(luaChon) {
-			case 1:
-				for(NhanVien i: danhSachNhanVien) {
-					long luong = i.getluongCanBan();
-					if (luong > luongCanBanCanTim) {
-						danhSachNhanVienTheoluongCanBan.add(i);
-					}
-				}
-				return danhSachNhanVienTheoluongCanBan;
-			case 2:
-				for(NhanVien i: danhSachNhanVien) {
-					long luong = i.getluongCanBan();
-					if (luong < luongCanBanCanTim) {
-						danhSachNhanVienTheoluongCanBan.add(i);
-					}
-				}
-				return danhSachNhanVienTheoluongCanBan;
-			case 3:
-				for(NhanVien i: danhSachNhanVien) {
-					long luong = i.getluongCanBan();
-					if (luong == luongCanBanCanTim) {
-						danhSachNhanVienTheoluongCanBan.add(i);
-					}
-				}
-				return danhSachNhanVienTheoluongCanBan;
-		}
-		return null;
-	}*/
 		//*** Phương thức tìm ***
 			//***** Tổng hợp các phương thức tìm thành phần *****
 	public ArrayList<NhanVien> danhSachCanTim() {
@@ -256,7 +224,7 @@ public class DanhSachNhanVien extends DanhSach{
 		}
 		return danhSachNhanVienCanTim;
 	}
-	@Override public void tim() {
+	public void tim() {
 		ArrayList<NhanVien> danhSachTimDuoc = danhSachCanTim();
 		if (danhSachTimDuoc == null) {
 			System.out.println("Khong co nhan vien nao trong danh sach can tim...");
@@ -269,7 +237,7 @@ public class DanhSachNhanVien extends DanhSach{
 		}
 	}
 	//Phương thức xóa nhân viên
-	@Override public void xoa() {
+	public void xoa(DanhSachPhongBan danhSachPhongBan, DanhSachBangLuong danhSachBangLuong,DanhSachDuAn danhSachDuAn) {
 		ArrayList<NhanVien> danhSachNhanVienCanXoa = danhSachCanTim();
 		if (danhSachNhanVienCanXoa == null) {
 			System.out.println("Khong co nhan vien nao trong danh sach can tim...");
@@ -284,26 +252,95 @@ public class DanhSachNhanVien extends DanhSach{
 				count++;
 			}
 			System.out.println("1. Xoa 1 nhan vien trong danh sach");
-			System.out.println("2. Xoa tat ca nhan vien trong danh sach");
 			System.out.println("0. Thoat");
 			do {
-				System.out.print("Nhap lua chon (0 -> 2): ");
+				System.out.print("Nhap lua chon (0 -> 1): ");
 				luaChon = Integer.parseInt(scan.nextLine());
-			} while(luaChon < 0 || luaChon > 2);
+			} while(luaChon < 0 || luaChon > 1);
+		//Danh sách các đối tượng phụ cần tạo
+			
+			NhanVien nhanVienCanXoa = new NhanVien(); //Tạo đối tượng tạm nhân viên cần xóa
+			//Lấy danh sách phòng ban
+			ArrayList<PhongBan> dspb = danhSachPhongBan.getDanhSachPhongBan();
+			ArrayList<NhanVien> tempDSNV; //mảng danh sách nhân viên tạm
+			//Lấy danh sách bảng lương
+			ArrayList<BangLuong> dsbl = danhSachBangLuong.getDanhSachBangLuong();
+			//Tạo 2 đối tượng bảng lương cần
+			BangLuongChinhThuc blctCanXoa = null;
+			BangLuongThoiVu bltvCanXoa = null;
+			//Lấy danh sách dự án
+			ArrayList<DuAn> dsda = danhSachDuAn.getDanhSachDuAn();
+			DuAnCaNhan dacnCanXoa = new DuAnCaNhan(); //Tạo đối tượng dự án cần reset nhân viên
+			
 			if (luaChon == 1) {
 				do {
 					System.out.println("Nhap STT nhan vien can xoa: ");
 					stt = Integer.parseInt(scan.nextLine());
 				} while(stt < 0 || stt > danhSachNhanVienCanXoa.size());
+			//Lấy id nhân viên cần xóa để so sánh
+				int idNhanVienCanXoa = (danhSachNhanVienCanXoa.get(stt-1)).getID();
+			//Xóa nhân viên trong danh sách nhân viên
 				danhSachNhanVien.remove(danhSachNhanVienCanXoa.get(stt-1));
+			//Xóa nhân viên trong danh sách phòng ban:
+				//	+Duyệt tìm từng phòng ban trong danh sách phòng ban
+				for(PhongBan i: dspb) {
+					tempDSNV = i.getDSNhanVien();
+				//	+Duyệt tìm từng nhân viên trong phòng ban đang được duyệt
+					for(NhanVien n: tempDSNV) {
+						if(n.getID() == idNhanVienCanXoa) { //Đã tìm thấy nhân viên cần xóa
+							nhanVienCanXoa = n;
+						}
+					}
+				//Loại bỏ nhân viên cần xóa ra khỏi danh sách
+					tempDSNV.remove(nhanVienCanXoa);
+				}
+			//Xóa bảng lương của nhân viên
+				//	+Duyệt tìm từng bảng lương trong danh sách bảng lương	
+				for(BangLuong i: dsbl) {
+					int temp = (i.getNhanVien()).getID(); //Lấy id tạm
+					if(temp == idNhanVienCanXoa) {
+						//Đã Tìm thấy bảng lương cần xóa
+						if(i instanceof BangLuongChinhThuc) {
+							blctCanXoa = (BangLuongChinhThuc)i;
+						}
+						if(i instanceof BangLuongThoiVu) {
+							bltvCanXoa = (BangLuongThoiVu)i;
+						}
+					}
+				}
+			//Xóa bảng lương cần xóa ra khỏi danh sách bảng lương
+				if(blctCanXoa != null) dsbl.remove(blctCanXoa);
+				if(bltvCanXoa != null) dsbl.remove(bltvCanXoa);
+			/*	
+			//Reset Dự án cá nhân
+				//	+Duyệt tìm từng dự án cá nhân trong danh sách dự án
+				for(DuAn i: dsda) {
+					if(i instanceof DuAnCaNhan) {
+						NhanVien temp = ((DuAnCaNhan) i).getNhanVien();
+						if(temp.getID() == idNhanVienCanXoa) {//Đã tìm thấy dự án cá nhân cần reset
+							dacnCanXoa = (DuAnCaNhan)i;
+						}
+					}
+				}
+				NhanVienChinhThuc newNV = new NhanVienChinhThuc(); //Khởi tạo 1 nhân viên rỗng
+				dacnCanXoa.setNhanVien(newNV); //Reset dự án cá nhân
+				*/
+			//Xóa dự án cá nhân
+				//+Duyệt tìm từng dự án cá nhân trong danh sách dự án
+				for(DuAn i: dsda) {
+					if(i instanceof DuAnCaNhan) {
+						NhanVien temp = ((DuAnCaNhan) i).getNhanVien();
+						if(temp.getID() == idNhanVienCanXoa) {//Đã tìm thấy dự án cá nhân cần reset
+							dacnCanXoa = (DuAnCaNhan)i;
+						}
+					}
+				}
+				dsda.remove(dacnCanXoa); //Xóa dự án cá nhân ra khỏi danh sách dự án
+				
+				//Loại bỏ nhân viên được xóa ra khỏi danh sách nhân viên cần xóa
 				danhSachNhanVienCanXoa.remove(stt-1);
 				System.out.println("Da xoa nhan vien!!");
 			} 
-			if (luaChon == 2) {			
-				danhSachNhanVien.removeAll(danhSachNhanVienCanXoa);
-				danhSachNhanVienCanXoa.clear();
-				System.out.println("Da xoa cac nhan vien trong danh sach tren!!");
-			}
 			if (luaChon == 0) return;
 		}
 	}
@@ -318,7 +355,7 @@ public class DanhSachNhanVien extends DanhSach{
 					NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN+" ki tu)");
 			System.out.print("Nhap ma phong ban can xoa: ");
 			maPhongBanCanXoa = Integer.parseInt(scan.nextLine());
-		} while((String.valueOf(maPhongBanCanXoa)).length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN);
+		} while(NhanVien.maPhongBanKhongHopLe(maPhongBanCanXoa));
 		for(NhanVien i: danhSachNhanVien) {
 			if(i.getMaPhongBan() == maPhongBanCanXoa) {
 				i.setMaPhongBan(0);
@@ -326,7 +363,7 @@ public class DanhSachNhanVien extends DanhSach{
 		}
 	}
 	//Phương thức sửa
-	@Override public void sua() {
+	public void sua(DanhSachPhongBan danhSachPhongBan, DanhSachBangLuong danhSachBangLuong, DanhSachDuAn danhSachDuAn) {
 		ArrayList<NhanVien> danhSachNhanVienCanSua = danhSachCanTim();
 		if (danhSachNhanVienCanSua == null) {
 			System.out.println("Khong co nhan vien nao trong danh sach can tim...");
@@ -353,15 +390,17 @@ public class DanhSachNhanVien extends DanhSach{
 				System.out.print("Nhap STT nhan vien can sua: ");
 				stt = Integer.parseInt(scan.nextLine());
 			} while(stt < 0 || stt > danhSachNhanVienCanSua.size());
-			int index = danhSachNhanVien.indexOf(danhSachNhanVienCanSua.get(stt-1));
+			int index = danhSachNhanVien.indexOf(danhSachNhanVienCanSua.get(stt-1)); 
+			int idNhanVienCanSua = (danhSachNhanVien.get(index)).getID();
+			NhanVien nhanVienCanSua = new NhanVien();
 			System.out.println("=====================================================");
 			System.out.println("Chon thong tin can sua:");
 			System.out.println("1. Ho Ten");
 			System.out.println("2. Ngay sinh");
-			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienThoiVu) {
+			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
 				System.out.println("3. Tien bao hiem");
 			}
-			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienChinhThuc) {
+			if(danhSachNhanVienCanSua.get(stt-1) instanceof NhanVienThoiVu) {
 				System.out.println("3. Thoi han lam viec");
 			}
 			System.out.println("=====================================================");
@@ -369,19 +408,169 @@ public class DanhSachNhanVien extends DanhSach{
 				System.out.print("Nhap lua chon (1 -> 3): ");
 				luaChon = Integer.parseInt(scan.nextLine());
 			} while(luaChon < 1 || luaChon > 3);
+		//Danh sách các biến phụ cần tạo
+			ArrayList<PhongBan> dspb = danhSachPhongBan.getDanhSachPhongBan();
+			ArrayList<NhanVien> tempDSNV;
+			//Lấy danh sách bảng lương
+			ArrayList<BangLuong> dsbl = danhSachBangLuong.getDanhSachBangLuong();
+			//Tạo 2 đối tượng bảng lương cần
+			BangLuongChinhThuc blctCanSua = null;
+			BangLuongThoiVu bltvCanSua = null;
+			//Lấy danh sách dự án
+			ArrayList<DuAn> dsda = danhSachDuAn.getDanhSachDuAn();
+			DuAnCaNhan dacnCanSua = new DuAnCaNhan();
 			switch(luaChon) {
 				case 1:
-					(danhSachNhanVien.get(index)).nhapHoTen();
+					System.out.print("Nhap ho ten moi: ");
+					String newHoTen = scan.nextLine();
+				//Sửa họ tên nhân viên trong danh sách nhân viên
+					(danhSachNhanVien.get(index)).setHoTen(newHoTen);
+				//Sửa họ tên nhân viên trong danh sách phòng ban	
+					for(PhongBan i: dspb) {
+						tempDSNV = i.getDSNhanVien();
+						for(NhanVien n: tempDSNV) {
+							if(n.getID() == idNhanVienCanSua) {
+								nhanVienCanSua = n;
+							}
+						}
+					}
+					nhanVienCanSua.setHoTen(newHoTen);
+				//Sửa họ tên nhân viên trong danh sách bảng lương
+					for(BangLuong i: dsbl) {
+						int temp = (i.getNhanVien()).getID();
+						if(temp == idNhanVienCanSua) {
+							if(i instanceof BangLuongChinhThuc) {
+								blctCanSua = (BangLuongChinhThuc)i;
+							}
+							if(i instanceof BangLuongThoiVu) {
+								bltvCanSua = (BangLuongThoiVu)i;
+							}
+						}
+					}
+					if(blctCanSua != null) {
+						(blctCanSua.getNhanVien()).setHoTen(newHoTen);
+					}
+					if(bltvCanSua != null) {
+						(bltvCanSua.getNhanVien()).setHoTen(newHoTen);
+					}
+				//Sửa tên nhân viên trong danh sách dự án
+					for(DuAn i: dsda) {
+						if(i instanceof DuAnCaNhan) {
+							NhanVien temp = ((DuAnCaNhan) i).getNhanVien();
+							if(temp.getID() == idNhanVienCanSua) {//Đã tìm thấy dự án cá nhân cần reset
+								dacnCanSua = (DuAnCaNhan)i;
+							}
+						}
+					}
+					(dacnCanSua.getNhanVien()).setHoTen(newHoTen);
 					break;
 				case 2:
-					(danhSachNhanVien.get(index)).nhapNgaySinh();
+					String newNgaySinh;
+					do {
+						System.out.print("Nhap ngay sinh moi(YYYY-MM-DD): ");
+						newNgaySinh = scan.nextLine();
+					} while(NhanVien.ngaySinhKhongHopLe(newNgaySinh));
+					(danhSachNhanVien.get(index)).setNgaySinh(newNgaySinh);
+					//Sửa họ tên nhân viên trong danh sách phòng ban	
+					for(PhongBan i: dspb) {
+						tempDSNV = i.getDSNhanVien();
+						for(NhanVien n: tempDSNV) {
+							if(n.getID() == idNhanVienCanSua) {
+								nhanVienCanSua = n;
+							}
+						}
+					}
+					nhanVienCanSua.setNgaySinh(newNgaySinh);
+				//Sửa họ tên nhân viên trong danh sách bảng lương
+					for(BangLuong i: dsbl) {
+						int temp = (i.getNhanVien()).getID();
+						if(temp == idNhanVienCanSua) {
+							if(i instanceof BangLuongChinhThuc) {
+								blctCanSua = (BangLuongChinhThuc)i;
+							}
+							if(i instanceof BangLuongThoiVu) {
+								bltvCanSua = (BangLuongThoiVu)i;
+							}
+						}
+					}
+					if(blctCanSua != null) {
+						(blctCanSua.getNhanVien()).setNgaySinh(newNgaySinh);
+					}
+					if(bltvCanSua != null) {
+						(bltvCanSua.getNhanVien()).setNgaySinh(newNgaySinh);
+					}
+				//Sửa tên nhân viên trong danh sách dự án
+					for(DuAn i: dsda) {
+						if(i instanceof DuAnCaNhan) {
+							NhanVien temp = ((DuAnCaNhan) i).getNhanVien();
+							if(temp.getID() == idNhanVienCanSua) {//Đã tìm thấy dự án cá nhân cần reset
+								dacnCanSua = (DuAnCaNhan)i;
+							}
+						}
+					}
+					(dacnCanSua.getNhanVien()).setNgaySinh(newNgaySinh);
 					break;
 				case 3:
-					if (danhSachNhanVien.get(index) instanceof NhanVienThoiVu) {
-						((NhanVienThoiVu)(danhSachNhanVien.get(index))).nhapThoiHanLamViec();
+					int newThoiHanLamViec = 0;
+					double newTienBaoHiem = 0;
+					if(danhSachNhanVien.get(index) instanceof NhanVienThoiVu) {
+						do {
+							System.out.print("Nhap thoi han lam viec moi: ");
+							newThoiHanLamViec = Integer.parseInt(scan.nextLine());
+						} while(NhanVienThoiVu.thoiHanLamViecKhongHopLe(newThoiHanLamViec));
+						((NhanVienThoiVu)(danhSachNhanVien.get(index))).setThoiHanLamViec(newThoiHanLamViec);
 					}
-					if (danhSachNhanVien.get(index) instanceof NhanVienChinhThuc) {
-						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).nhapTienBaoHiem();
+					if(danhSachNhanVien.get(index) instanceof NhanVienChinhThuc) {
+						do {
+							System.out.print("Nhap tien bao hiem moi: ");
+							newTienBaoHiem = Double.parseDouble(scan.nextLine());
+						} while(NhanVienChinhThuc.tienBaoHiemKhongHopLe(newTienBaoHiem));
+						((NhanVienChinhThuc)(danhSachNhanVien.get(index))).setTienBaoHiem(newTienBaoHiem);
+					}
+					for(PhongBan i: dspb) {
+						tempDSNV = i.getDSNhanVien();
+						for(NhanVien n: tempDSNV) {
+							if(n.getID() == idNhanVienCanSua) {
+								nhanVienCanSua = n;
+							}
+						}
+					}
+					if (nhanVienCanSua instanceof NhanVienThoiVu) {
+						((NhanVienThoiVu)nhanVienCanSua).setThoiHanLamViec(newThoiHanLamViec);
+					}
+					if (nhanVienCanSua instanceof NhanVienChinhThuc) {
+						((NhanVienChinhThuc)nhanVienCanSua).setTienBaoHiem(newTienBaoHiem);
+					}
+					for(BangLuong i: dsbl) {
+						int temp = (i.getNhanVien()).getID();
+						if(temp == idNhanVienCanSua) {
+							if(i instanceof BangLuongChinhThuc) {
+								blctCanSua = (BangLuongChinhThuc)i;
+							}
+							if(i instanceof BangLuongThoiVu) {
+								bltvCanSua = (BangLuongThoiVu)i;
+							}
+						}
+					}
+					if(blctCanSua != null) {
+						((NhanVienChinhThuc)(blctCanSua.getNhanVien())).setTienBaoHiem(newTienBaoHiem);
+					}
+					if(bltvCanSua != null) {
+						((NhanVienThoiVu)(bltvCanSua.getNhanVien())).setThoiHanLamViec(newThoiHanLamViec);
+					}
+					for(DuAn i: dsda) {
+						if(i instanceof DuAnCaNhan) {
+							NhanVien temp = ((DuAnCaNhan) i).getNhanVien();
+							if(temp.getID() == idNhanVienCanSua) {//Đã tìm thấy dự án cá nhân cần reset
+								dacnCanSua = (DuAnCaNhan)i;
+							}
+						}
+					}
+					if(dacnCanSua.getNhanVien() instanceof NhanVienChinhThuc) {
+						((NhanVienChinhThuc)(dacnCanSua.getNhanVien())).setTienBaoHiem(newTienBaoHiem);
+					}
+					if(dacnCanSua.getNhanVien() instanceof NhanVienThoiVu) {
+						((NhanVienThoiVu)(dacnCanSua.getNhanVien())).setThoiHanLamViec(newThoiHanLamViec);
 					}
 					break;
 			}
@@ -393,27 +582,29 @@ public class DanhSachNhanVien extends DanhSach{
 		//*** Đọc file ***
 	public void docFile() {
 		try {
-			File inputFile = new File("C:/Users/ACER/eclipse-workspace/InputFile.txt");
+			File inputFile = new File("dataNV.txt");
 			Scanner scan = new Scanner(inputFile);
 			while(scan.hasNextLine()) {
 				String temp = scan.nextLine();
 				String arr[] = temp.split(",");	
 				if(arr[0].intern() == "1") {
-					NhanVienThoiVu newNV = new NhanVienThoiVu();
+					NhanVienChinhThuc newNV = new NhanVienChinhThuc();
 					newNV.setID(Integer.parseInt(arr[1]));
-					newNV.setHoTen(arr[2]);
-					newNV.setNgaySinh(arr[3]);
-					newNV.setMaPhongBan(Integer.parseInt(arr[4]));
-					newNV.setThoiHanLamViec(Integer.parseInt(arr[5]));
+					newNV.setHo(arr[2]);
+					newNV.setTen(arr[3]);
+					newNV.setNgaySinh(arr[4]);
+					newNV.setMaPhongBan(Integer.parseInt(arr[5]));
+					newNV.setTienBaoHiem(Double.parseDouble(arr[6]));
 					danhSachNhanVien.add(newNV);
 				}
 				if(arr[0].intern() == "2") {
-					NhanVienChinhThuc newNV = new NhanVienChinhThuc();
+					NhanVienThoiVu newNV = new NhanVienThoiVu();
 					newNV.setID(Integer.parseInt(arr[1]));
-					newNV.setHoTen(arr[2]);
-					newNV.setNgaySinh(arr[3]);
-					newNV.setMaPhongBan(Integer.parseInt(arr[4]));
-					newNV.setTienBaoHiem(Double.parseDouble(arr[5]));
+					newNV.setHo(arr[2]);
+					newNV.setTen(arr[3]);
+					newNV.setNgaySinh(arr[4]);
+					newNV.setMaPhongBan(Integer.parseInt(arr[5]));
+					newNV.setThoiHanLamViec(Integer.parseInt(arr[6]));
 					danhSachNhanVien.add(newNV);
 				}
 				NhanVien.setCount((danhSachNhanVien.get(danhSachNhanVien.size()-1)).getID());
@@ -427,13 +618,13 @@ public class DanhSachNhanVien extends DanhSach{
 		//*** Ghi file ***
 	public void ghiFile() {
 		try {
-			File outputFile = new File("C:/Users/ACER/eclipse-workspace/InputFile.txt");
+			File outputFile = new File("dataNV.txt");
 			FileWriter fw = new FileWriter(outputFile);
 			for(NhanVien i: danhSachNhanVien) {
-				if (i instanceof NhanVienThoiVu) {
+				if (i instanceof NhanVienChinhThuc) {
 					fw.write("1,");
 				}
-				if (i instanceof NhanVienChinhThuc) {
+				if (i instanceof NhanVienThoiVu) {
 					fw.write("2,");
 				}
 				String ho, ten, ngaySinh;
@@ -443,7 +634,7 @@ public class DanhSachNhanVien extends DanhSach{
 				ten = i.getTen();
 				ngaySinh = (i.getNgaySinh()).toString();
 				maPhongBan = i.getMaPhongBan();
-				fw.write(String.valueOf(id)+","+ho+" "+ten+","+ngaySinh+","+maPhongBan+",");
+				fw.write(String.valueOf(id)+","+ho+","+ten+","+ngaySinh+","+maPhongBan+",");
 				if (i instanceof NhanVienThoiVu) {
 					int temp = ((NhanVienThoiVu)i).getThoiHanLamViec();
 					String thoiHanLamViec = String.valueOf(temp);

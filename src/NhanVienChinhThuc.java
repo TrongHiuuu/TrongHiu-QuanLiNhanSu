@@ -16,7 +16,7 @@ public class NhanVienChinhThuc extends NhanVien{
 	}
 	
 	//Các hàm điều kiện
-	private boolean tienBaoHiemKhongHopLe(double newTienBaoHiem) {
+	public static boolean tienBaoHiemKhongHopLe(double newTienBaoHiem) {
 		if(newTienBaoHiem < 0) return true;
 		return false;
 	}

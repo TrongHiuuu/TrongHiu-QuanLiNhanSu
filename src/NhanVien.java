@@ -48,17 +48,12 @@ public class NhanVien {
 	public void setHoTen(String newHoTen) {
 		newHoTen = newHoTen.trim();
 		String[] temp = newHoTen.split(" ");
-		int count = temp.length;
-		if(count == 1) {
-			ten = temp[0];
+		ten = temp[temp.length-1];
+		ho = "";
+		for(int i=0;i<temp.length - 1;i++) {
+			ho = ho + temp[i] + " ";
 		}
-		else {
-			ten = temp[temp.length-1];
-			for(int i=0;i<temp.length-1;i++) {
-				ho = ho + temp[i] + " ";
-			}
-			ho = ho.trim();
-		}
+		ho = ho.trim();
 	}
 	public void setNgaySinh(String newNgaySinh) {
 		if((newNgaySinh.intern()).contains("-")) {
@@ -83,9 +78,9 @@ public class NhanVien {
 	//Các hàm kiểm tra điều kiện
 	
 		//*** Kiểm tra điều kiện của ngày sinh ***
-	private boolean ngaySinhKhongHopLe(String newNgaySinh) {
+	public static boolean ngaySinhKhongHopLe(String newNgaySinh) {
 		try {
-			if ((newNgaySinh.intern()).contains("-") == true) {
+			if ((newNgaySinh.intern()).contains("-")) {
 				LocalDate newDate = LocalDate.parse(newNgaySinh);
 			} else {
 				LocalDate newDate = LocalDate.parse(newNgaySinh, DateTimeFormatter.BASIC_ISO_DATE);
@@ -96,13 +91,13 @@ public class NhanVien {
 	}
 
 		//*** Kiểm tra điều kiện của id ***
-	private boolean idKhongHopLe(int newID) {
+	public static boolean idKhongHopLe(int newID) {
 		if((String.valueOf(newID)).length() != NhanVien_CONST.NUMBEROFCHAR_ID) return true;
 		return false;
 	}
 	
 		//*** Kiểm tra điều kiện của maPhongBan ***
-	private boolean maPhongBanKhongHopLe(int newMaPhongBan) {
+	public static boolean maPhongBanKhongHopLe(int newMaPhongBan) {
 		String temp = String.valueOf(newMaPhongBan);
 		if(temp.length() != NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN) return true;
 		return false;
@@ -123,12 +118,12 @@ public class NhanVien {
 		//*** Constructor có tham số ***
 	public NhanVien(int newID, String newHo, String newTen, String newNgaySinh, int newMaPhongBan) {
 		id = newID;
-		if(idKhongHopLe(id)) id = 0;
+		//if(idKhongHopLe(id)) id = 0;
 		ho = newHo;
 		ten = newTen;
 		setNgaySinh(newNgaySinh);
 		maPhongBan = newMaPhongBan;
-		if(maPhongBanKhongHopLe(maPhongBan)) maPhongBan = 0;
+		//if(maPhongBanKhongHopLe(maPhongBan)) maPhongBan = 0;
 	}
 	
 	
@@ -148,38 +143,12 @@ public class NhanVien {
 		System.out.print("Nhap ngay sinh (YYYY-MM-DD): ");
 		newNgaySinh = scan.nextLine();
 		do {
-			System.out.print("Ngay sinh khong hop le, vui long nhap lai!!!");
+			System.out.println("Ngay sinh khong hop le, vui long nhap lai!!!");
 			System.out.print("Nhap ngay sinh (YYYY-MM-DD): ");
 			newNgaySinh = scan.nextLine();
 		} while(ngaySinhKhongHopLe(newNgaySinh));
 		setNgaySinh(newNgaySinh);
 	}
-	/*
-	public void nhapId() {
-		String newId;
-		System.out.print("Nhap ma so (8 ki tu): ");
-		newId = scan.nextLine();
-		while(idKhongHopLe(newId)) {
-			System.out.print("Ma so khong hop le, vui long nhap lai!!!");
-			System.out.print("Nhap ma so (8 ki tu): ");
-			newId = scan.nextLine();
-		}
-		id = newId;
-	} */
-	/*
-	public void nhapMaPhongBan() {
-		int newMaPhongBan;
-		System.out.print("Nhap ma phong ban: ");
-		newMaPhongBan = Integer.parseInt(scan.nextLine());
-		while(maPhongBanKhongHopLe(newMaPhongBan)) {
-			System.out.println("Ma phong ban khong hop le!! (Phai co "+NhanVien_CONST.NUMBEROFCHAR_MAPHONGBAN
-					+" ki tu)");
-			System.out.print("Nhap ma phong ban: ");
-			newMaPhongBan = Integer.parseInt(scan.nextLine());
-		}
-		maPhongBan = newMaPhongBan;
-	}
-	*/
 	
 			//***** Hàm nhập tổng hợp *****
 	public void nhap() {
@@ -203,17 +172,12 @@ public class NhanVien {
 	private void xuatMaPhongBan() {
 		System.out.println("Ma phong ban: "+maPhongBan);
 	}
-	private void xuatLuongCanBan() {
-		System.out.println("Muc Luong: "+luongCanBan);
-	}
-	
 			//***** Hàm xuất tổng hợp *****
 	public void xuat() {
 		xuatID();
 		xuatHoTen();
 		xuatNgaySinh();
 		xuatMaPhongBan();
-		xuatLuongCanBan();
 	}
 	//Hàm tính tổng số lượng nhân viên
 	/*public static int tongSoLuongNhanVien() {

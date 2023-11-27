@@ -16,7 +16,7 @@ public class NhanVienThoiVu extends NhanVien {
 	}
 	
 	//Các hàm điều kiện
-	private boolean thoiHanLamViecKhongHopLe(int newThoiHanLamViec) {
+	public static boolean thoiHanLamViecKhongHopLe(int newThoiHanLamViec) {
 		if(newThoiHanLamViec < 0 || newThoiHanLamViec > NhanVien_CONST.MAX_OF_THOIHANLAMVIEC) return true;
 		return false;
 	}
